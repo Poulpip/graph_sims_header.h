@@ -344,8 +344,29 @@ void outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page){
 
             clear_bitmap(bitmaps->page);
             while(true){
-                clear_bitmap(bitmaps->constr);
-                show_mouse(bitmaps->constr);
+                if(mouse_b&1){
+                    Sleep(50);
+                    x=mouse_x/41;
+                    y=mouse_y/21;
+                    if(mouse_x<(x+1)*41-20)
+                    {
+                        if(x!=0)x=x*41-20;
+                        if(y!=0)y=y*21-10;
+                        printf("\nd");
+                    }
+                    else
+                    {
+                        x=x*41;
+                        y=y*21;
+                    }
+
+
+                    draw_sprite(page,bitmaps->route,x+10,y-5 );
+                    x=x/41;
+                    y=y/21;
+                    printf("x:%d y:%d   ",mouse_x,mouse_y);
+                    printf("x:%d y:%d\n",x,y);
+                }
                 if(mouse_b&2){
                     break;
                 }
