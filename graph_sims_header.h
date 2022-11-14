@@ -90,7 +90,7 @@ typedef struct Graphe
 
 }Graphe;
 
-
+/*
 void initAllegro();
 void MAJ_graph(int ordre);
 void niveaux(BITMAP* niveau0,BITMAP* niveau_1,BITMAP* niveau_2,BITMAP* page);
@@ -102,5 +102,5 @@ void quitter(BITMAP* quitter, BITMAP* page);
 void outils (Bitmaps* bitmaps,BITMAP* rect,BITMAP* page);
 Bitmaps* initialisation_bitmaps();
 
-
+*/
 #endif // GRAPH_SIMS_HEADER_H_INCLUDED

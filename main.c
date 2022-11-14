@@ -34,8 +34,8 @@ int main()
 
     for(int i=0;i<64;i++)
     {
-        line(page,0,10+21*i,20+41*i,0,makecol(255,0,255));
-        line(page ,1024-41*i,0,1024,2+21*i,makecol(255,0,255));
+        line(page,0,10+20*i,20+40*i,0,makecol(255,0,255));
+        line(page ,1024-40*i,0,1024,2+20*i,makecol(255,0,255));
     }
 
     while (!key[KEY_ESC])
@@ -43,13 +43,12 @@ int main()
 
         clear_bitmap(rect);
         blit(page,rect,0,0,0,0,SCREEN_W,SCREEN_H);
-        outils(bitmaps,rect,page);
+        outils(bitmaps,rect,page,tabcases);
         pause(bitmaps->pause,page);
         sauvegarde(bitmaps->sauvegarde,page);
         quitter(bitmaps->quitter,page);
         niveaux(bitmaps->niveau0,bitmaps->niveau_1,bitmaps->niveau_2,page);
        // if(mouse_b&1)MAJ_graph(ordre);
-
         show_mouse(rect);
 
         blit(rect,screen,0,0,0,0,SCREEN_W,SCREEN_H);

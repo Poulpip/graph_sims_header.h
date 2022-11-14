@@ -305,8 +305,8 @@ Bitmaps* initialisation_bitmaps(){
 
     return Bitmaps;
 }
-void outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page){
-
+void outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35]){
+    int verif_y=0,yc=0,xc=0;
     draw_sprite(rect,bitmaps->outils,965,0);
     int x,y;
 
@@ -344,45 +344,48 @@ void outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page){
 
             clear_bitmap(bitmaps->page);
             while(true){
-                if(mouse_b&1){
+                if(mouse_b&1&& mouse_x>20){
                     Sleep(50);
-                    x=mouse_x/41;
-                    y=mouse_y/21;
-                    if(mouse_x<(x+1)*41-20)
+                    x=mouse_x/40;
+                    y=mouse_y/20;
+                    if(mouse_x<(x+1)*40-20)
                     {
-                        if(x!=0)x=x*41-20;
-                        if(y!=0)y=y*21-10;
+                        if(x!=0)x=x*40-20;
+                        if(y!=0)y=y*20-10;
                         printf("\nd");
                     }
                     else
                     {
-                        x=x*41;
-                        y=y*21;
+                        x=x*40;
+                        y=y*20;
+                    }
+                    draw_sprite(page,bitmaps->route,x,y );
+                    printf("x:%d y:%d   ",mouse_x,mouse_y);
+                    yc=y/10;
+                    xc=x/40;
+                    printf("x:%d y:%d\n",xc,yc);
+
+                    tabcases[yc][xc].type=1;
+                    tabcases[yc][xc].x=x;
+                    tabcases[yc][xc].y=y;
+
+                    for(int k=0;k<23;k++){
+                        for(int l=0;l<35;l++){
+                            printf("%d  ",tabcases[k][l].type);
+                        }printf("\n");
                     }
 
 
-                    draw_sprite(page,bitmaps->route,x+10,y-5 );
-                    x=x/41;
-                    y=y/21;
-                    printf("x:%d y:%d   ",mouse_x,mouse_y);
-                    printf("x:%d y:%d\n",x,y);
                 }
                 if(mouse_b&2){
                     break;
                 }
 
-                blit(page,rect,0,0,0,0,SCREEN_W,SCREEN_H);
+                blit(page,rect,0,0,0,0,SCREEN_W,SCREEN_H);show_mouse(rect);
                 draw_sprite(rect,bitmaps->route,mouse_x-20,mouse_y-20 );
-                show_mouse(rect);
+
                 blit(rect,screen,0,0,0,0,SCREEN_W,SCREEN_H);
                 Sleep(50);
-             /* if(mouse_b&1){
-                  x=(mouse_x/40)*40;
-                  y=(mouse_x/20)*20;
-                  cases[mouse_y/20][mouse_x/40].x=x;
-                  cases[mouse_y/20][mouse_x/40].y=y;
-
-              }*/
             }
 
         }
