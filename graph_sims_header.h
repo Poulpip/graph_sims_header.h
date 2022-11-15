@@ -28,7 +28,7 @@ typedef struct graph{
 }Bitmaps;
 typedef struct cases
 {
-    int type;    //type du sommet(0:vide 1:route 2:habitations 3:clefenmain )
+    int type;    //type du sommet( 0:vide 1:route 2:habitations 3:clefenmain )
     int x;
     int y;
     int passage;
@@ -99,7 +99,7 @@ void pause(BITMAP* pause, BITMAP* page);
 void sauvegarde(BITMAP* sauvegarde, BITMAP* page);
 
 void quitter(BITMAP* quitter, BITMAP* page);
-void outils (Bitmaps* bitmaps,BITMAP* rect,BITMAP* page);
+void outils (Bitmaps* bitmaps,BITMAP* rect,BITMAP* page,cases tabcases[23][35]);
 Bitmaps* initialisation_bitmaps();
 
 */

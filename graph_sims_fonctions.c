@@ -341,41 +341,41 @@ void outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35])
 
            }
         if(getpixel(bitmaps->bufferDeDetection,mouse_x,mouse_y)== makecol(255, 255, 0)&&mouse_b&1){
-
             clear_bitmap(bitmaps->page);
+            Sleep(50);
             while(true){
                 if(mouse_b&1&& mouse_x>20){
-                    Sleep(50);
+
                     x=mouse_x/40;
                     y=mouse_y/20;
                     if(mouse_x<(x+1)*40-20)
                     {
                         if(x!=0)x=x*40-20;
                         if(y!=0)y=y*20-10;
-                        printf("\nd");
                     }
                     else
                     {
                         x=x*40;
                         y=y*20;
                     }
-                    draw_sprite(page,bitmaps->route,x,y );
-                    printf("x:%d y:%d   ",mouse_x,mouse_y);
                     yc=y/10;
                     xc=x/40;
-                    printf("x:%d y:%d\n",xc,yc);
+                    if(tabcases[yc][xc].type!=0)continue;
+                    draw_sprite(page,bitmaps->route,x,y );
 
+
+                    printf("%d\n",yc);
                     tabcases[yc][xc].type=1;
                     tabcases[yc][xc].x=x;
                     tabcases[yc][xc].y=y;
 
-                    for(int k=0;k<23;k++){
+                    for(int k=0;k<75;k++){
                         for(int l=0;l<35;l++){
-                            printf("%d  ",tabcases[k][l].type);
+                            printf("%d ",tabcases[k][l].type);
+
                         }printf("\n");
-                    }
-
-
+                        if(k%2==0)printf(" ");
+                    }printf("\n\n");
                 }
                 if(mouse_b&2){
                     break;
@@ -385,14 +385,68 @@ void outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35])
                 draw_sprite(rect,bitmaps->route,mouse_x-20,mouse_y-20 );
 
                 blit(rect,screen,0,0,0,0,SCREEN_W,SCREEN_H);
-                Sleep(50);
+                Sleep(10);
             }
 
         }
         if(getpixel(bitmaps->bufferDeDetection,mouse_x,mouse_y)== makecol(200, 200, 0)&&mouse_b&1){
-
             clear_bitmap(bitmaps->page);
+            Sleep(100);
+            while(true){
+                if(mouse_b&1&& mouse_x>20)
+                {
+                    Sleep(50);
+                    x=mouse_x/40;
+                    y=mouse_y/20;
+                    if(mouse_x<(x+1)*40-20)
+                    {
+                        if(x!=0)x=x*40-20;
+                        if(y!=0)y=y*20-10;
+                    }
+                    else
+                    {
+                        x=x*40;
+                        y=y*20;
+                    }
+                    yc=y/10;
+                    xc=x/40;
+                    if(tabcases[yc][xc].type!=0||tabcases[yc -2][xc +1].type)continue;
+                    draw_sprite(page,bitmaps->terrain,x-40,y -40   );
+                    if(yc%2==0){
+                        tabcases[yc -2][xc +1].type = 2;
+                        tabcases[yc -2][xc -1].type = 2;
+                        tabcases[yc -2][xc ].type = 2;
+                        tabcases[yc-1][xc ].type = 2;
+                        tabcases[yc-1][xc -1].type = 2;
+                        tabcases[yc][xc].type = 2;
+                        tabcases[yc -3][xc -1].type = 2;
+                        tabcases[yc -3][xc ].type = 2;
+                        tabcases[yc -4][xc ].type = 2;
+                    }
+                    else{
+                        tabcases[yc -2][xc +1].type = 2;
+                        tabcases[yc -2][xc -1].type = 2;
+                        tabcases[yc -2][xc ].type = 2;
+                        tabcases[yc-1][xc ].type = 2;
+                        tabcases[yc-1][xc +1].type = 2;
+                        tabcases[yc][xc].type = 2;
+                        tabcases[yc -3][xc +1].type = 2;
+                        tabcases[yc -3][xc ].type = 2;
+                        tabcases[yc -4][xc ].type = 2;
+                    }
+                    tabcases[yc][xc].x=x;
+                    tabcases[yc][xc].y=y;
+                }
+                if(mouse_b&2){
+                    break;
+                }
 
+                blit(page,rect,0,0,0,0,SCREEN_W,SCREEN_H);show_mouse(rect);
+                draw_sprite(rect,bitmaps->terrain,mouse_x-63,mouse_y-60 );
+                show_mouse(rect);
+                blit(rect,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+                Sleep(50);
+            }
         }
         if(getpixel(bitmaps->bufferDeDetection,mouse_x,mouse_y)== makecol(100, 0, 0)&&mouse_b&1){
 

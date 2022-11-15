@@ -10,9 +10,9 @@ int main()
     rect = create_bitmap(SCREEN_W,SCREEN_H);
     clear_bitmap(rect);
 
-    cases tabcases[23][35];
+    cases tabcases[75][35];
     Bitmaps *bitmaps=initialisation_bitmaps();
-    for(int i=0;i<23;i++)
+    for(int i=0;i<75;i++)
     {
         for(int j=0;j<35;j++)
         {
@@ -21,8 +21,8 @@ int main()
             tabcases[i][j].passage=0;
             tabcases[i][j].x=j*21;
             tabcases[i][j].y=i*11;
-            printf("tab[%d][%d]=x=%d y=%d  ",j,i,tabcases[i][j].x,tabcases[i][j].y);
-        }printf("\n\n\n");
+           // printf("tab[%d][%d]=x=%d y=%d  ",j,i,tabcases[i][j].x,tabcases[i][j].y);
+        }//printf("\n\n\n");
     }
 
 
