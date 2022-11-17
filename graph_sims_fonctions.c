@@ -360,22 +360,22 @@ void outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35])
                     }
                     yc=y/10;
                     xc=x/40;
-                    if(tabcases[yc][xc].type!=0)continue;
-                    draw_sprite(page,bitmaps->route,x,y );
+                    if(tabcases[yc][xc].type==0)
+                    {
+                        draw_sprite(page,bitmaps->route,x,y );
+                        tabcases[yc][xc].type=1;
+                        tabcases[yc][xc].x=x;
+                        tabcases[yc][xc].y=y;
 
+                        for(int k=0;k<75;k++){
+                            for(int l=0;l<35;l++){
+                                printf("%d ",tabcases[k][l].type);
 
-                    printf("%d\n",yc);
-                    tabcases[yc][xc].type=1;
-                    tabcases[yc][xc].x=x;
-                    tabcases[yc][xc].y=y;
+                            }printf("\n");
+                            if(k%2==0)printf(" ");
+                        }printf("\n\n");
+                    }
 
-                    for(int k=0;k<75;k++){
-                        for(int l=0;l<35;l++){
-                            printf("%d ",tabcases[k][l].type);
-
-                        }printf("\n");
-                        if(k%2==0)printf(" ");
-                    }printf("\n\n");
                 }
                 if(mouse_b&2){
                     break;
@@ -385,7 +385,7 @@ void outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35])
                 draw_sprite(rect,bitmaps->route,mouse_x-20,mouse_y-20 );
 
                 blit(rect,screen,0,0,0,0,SCREEN_W,SCREEN_H);
-                Sleep(10);
+
             }
 
         }
@@ -395,7 +395,7 @@ void outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35])
             while(true){
                 if(mouse_b&1&& mouse_x>20)
                 {
-                    Sleep(10);
+
                     x=mouse_x/40;
                     y=mouse_y/20;
                     if(mouse_x<(x+1)*40-20)
@@ -410,32 +410,30 @@ void outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35])
                     }
                     yc=y/10;
                     xc=x/40;
-                    if(tabcases[yc][xc].type!=0||tabcases[yc -2][xc +1].type!=0||tabcases[yc -2][xc -1].type!=0||tabcases[yc -2][xc ].type != 0||tabcases[yc-1][xc ].type != 0||tabcases[yc-1][xc ].type != 0||tabcases[yc -3][xc -1].type !=0||tabcases[yc -3][xc ].type != 0||tabcases[yc -4][xc ].type != 0||tabcases[yc-1][xc +1].type !=0|| tabcases[yc -3][xc +1].type != 0)continue;
+                    if(tabcases[yc][xc].type!=0||tabcases[yc -2][xc +1].type!=0||tabcases[lyc -2][xc -1].type!=0||tabcases[yc -2][xc ].type != 0||tabcases[yc-1][xc ].type != 0||tabcases[yc -3][xc ].type != 0||tabcases[yc -4][xc ].type != 0 )continue;
                     draw_sprite(page,bitmaps->terrain,x-40,y -40   );
                     if(yc%2==0){
-                        tabcases[yc -2][xc +1].type = 2;
-                        tabcases[yc -2][xc -1].type = 2;
-                        tabcases[yc -2][xc ].type = 2;
-                        tabcases[yc-1][xc ].type = 2;
-                        tabcases[yc-1][xc ].type = 2;
-                        tabcases[yc][xc].type = 2;
+
+                        tabcases[yc-1][xc -1].type = 2;
+
                         tabcases[yc -3][xc -1].type = 2;
-                        tabcases[yc -3][xc ].type = 2;
-                        tabcases[yc -4][xc ].type = 2;
+
                     }
                     else{
-                        tabcases[yc -2][xc +1].type = 2;
-                        tabcases[yc -2][xc -1].type = 2;
-                        tabcases[yc -2][xc ].type = 2;
-                        tabcases[yc-1][xc ].type = 2;
+
                         tabcases[yc-1][xc +1].type = 2;
-                        tabcases[yc][xc].type = 2;
                         tabcases[yc -3][xc +1].type = 2;
-                        tabcases[yc -3][xc ].type = 2;
-                        tabcases[yc -4][xc ].type = 2;
+
                     }
+                    tabcases[yc -2][xc +1].type = 2;
+                    tabcases[yc -2][xc -1].type = 2;
+                    tabcases[yc -2][xc ].type = 2;
+                    tabcases[yc-1][xc ].type = 2;
                     tabcases[yc][xc].x=x;
                     tabcases[yc][xc].y=y;
+                    tabcases[yc][xc].type = 2;
+                    tabcases[yc -3][xc ].type = 2;
+                    tabcases[yc -4][xc ].type = 2;
                 }
                 if(mouse_b&2){
                     break;
@@ -445,7 +443,7 @@ void outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35])
                 draw_sprite(rect,bitmaps->terrain,mouse_x-63,mouse_y-60 );
                 show_mouse(rect);
                 blit(rect,screen,0,0,0,0,SCREEN_W,SCREEN_H);
-
+                Sleep(50);
             }
         }
         if(getpixel(bitmaps->bufferDeDetection,mouse_x,mouse_y)== makecol(100, 0, 0)&&mouse_b&1){
