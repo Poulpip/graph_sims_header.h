@@ -395,7 +395,7 @@ void outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35])
             while(true){
                 if(mouse_b&1&& mouse_x>20)
                 {
-                    Sleep(50);
+                    Sleep(10);
                     x=mouse_x/40;
                     y=mouse_y/20;
                     if(mouse_x<(x+1)*40-20)
@@ -410,14 +410,14 @@ void outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35])
                     }
                     yc=y/10;
                     xc=x/40;
-                    if(tabcases[yc][xc].type!=0||tabcases[yc -2][xc +1].type!=0)continue;
+                    if(tabcases[yc][xc].type!=0||tabcases[yc -2][xc +1].type!=0||tabcases[yc -2][xc -1].type!=0||tabcases[yc -2][xc ].type != 0||tabcases[yc-1][xc ].type != 0||tabcases[yc-1][xc ].type != 0||tabcases[yc -3][xc -1].type !=0||tabcases[yc -3][xc ].type != 0||tabcases[yc -4][xc ].type != 0||tabcases[yc-1][xc +1].type !=0|| tabcases[yc -3][xc +1].type != 0)continue;
                     draw_sprite(page,bitmaps->terrain,x-40,y -40   );
                     if(yc%2==0){
                         tabcases[yc -2][xc +1].type = 2;
                         tabcases[yc -2][xc -1].type = 2;
                         tabcases[yc -2][xc ].type = 2;
                         tabcases[yc-1][xc ].type = 2;
-                        tabcases[yc-1][xc -1].type = 2;
+                        tabcases[yc-1][xc ].type = 2;
                         tabcases[yc][xc].type = 2;
                         tabcases[yc -3][xc -1].type = 2;
                         tabcases[yc -3][xc ].type = 2;
@@ -445,7 +445,7 @@ void outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35])
                 draw_sprite(rect,bitmaps->terrain,mouse_x-63,mouse_y-60 );
                 show_mouse(rect);
                 blit(rect,screen,0,0,0,0,SCREEN_W,SCREEN_H);
-                Sleep(50);
+
             }
         }
         if(getpixel(bitmaps->bufferDeDetection,mouse_x,mouse_y)== makecol(100, 0, 0)&&mouse_b&1){
