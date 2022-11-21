@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/adry7/Documents/Ece/Algo/graphe_sims
+# Install script for directory: C:/Users/victo/OneDrive/Documents/GitHub/graph_sims_header.h
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/adry7/Documents/Ece/Algo/graphe_sims/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/victo/OneDrive/Documents/GitHub/graph_sims_header.h/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
