@@ -4,12 +4,12 @@ int main()
 {
     int ordre;
     initAllegro();
-    BITMAP *page,*rect,*it;
+    BITMAP *page,*rect,*it,*map;
     page = create_bitmap(SCREEN_W,SCREEN_H);
     clear_bitmap(page);
     rect = create_bitmap(SCREEN_W,SCREEN_H);
     clear_bitmap(rect);
-
+    map=load_bitmap("map.bmp",NULL);
     cases tabcases[75][35];
     Bitmaps *bitmaps=initialisation_bitmaps();
     for(int i=0;i<75;i++)
@@ -27,7 +27,7 @@ int main()
 
 
 
-
+   // blit(map,page,0,0,0,60,SCREEN_W,SCREEN_H);
     BITMAP* route;
     route= load_bitmap("routelosange.bmp",NULL);
 
@@ -50,7 +50,6 @@ int main()
         niveaux(bitmaps->niveau0,bitmaps->niveau_1,bitmaps->niveau_2,page);
        // if(mouse_b&1)MAJ_graph(ordre);
         show_mouse(rect);
-
         blit(rect,screen,0,0,0,0,SCREEN_W,SCREEN_H);
 
     }
