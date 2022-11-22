@@ -277,6 +277,8 @@ Bitmaps* initialisation_bitmaps(){
     //chargez image sims city
     Bitmaps->route=load_bitmap("menu/route.bmp",NULL);
     Bitmaps->outils=load_bitmap("menu/outils.bmp",NULL);
+    Bitmaps->chateauD=load_bitmap("menu/chateauD.bmp",NULL);
+    Bitmaps->centraleD=load_bitmap("menu/centraleD.bmp",NULL);
     Bitmaps->chateau=load_bitmap("menu/chateau.bmp",NULL);
     Bitmaps->centrale=load_bitmap("menu/centrale.bmp",NULL);
     Bitmaps->terrain=load_bitmap("menu/terrainvague1.bmp",NULL);
@@ -364,9 +366,9 @@ void outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35])
                 textprintf_ex(bitmaps->page, font, 360,270, makecol(110, 140, 160),-1,"Route : 10 ECE-flouz par unite de grille ");
                 stretch_sprite(bitmaps->page,bitmaps->terrain,260,325,60,30);
                 textprintf_ex(bitmaps->page, font, 360,345, makecol(110, 140, 160),-1,"Terrain vague : 1000 ECE-flouz ");
-                draw_sprite(bitmaps->page,bitmaps->chateau,260,400);
+                draw_sprite(bitmaps->page,bitmaps->chateauD,260,400);
                 textprintf_ex(bitmaps->page, font, 360,420, makecol(110, 140, 160),-1,"Chateau d'eau : 100 000 ECE-flouz ");
-                draw_sprite(bitmaps->page,bitmaps->centrale,260,475);
+                draw_sprite(bitmaps->page,bitmaps->centraleD,260,475);
                 draw_sprite(bitmaps->page,bitmaps->croixrouge,700,195);
                 rectfill(bitmaps->bufferDeDetection,700,195,750,245,makecol(255, 0, 0));
                 textprintf_ex(bitmaps->page, font, 360,495, makecol(110, 140, 160),-1,"Centrale : 100 000 ECE-flouz ");
@@ -509,7 +511,82 @@ void outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35])
                     }
                     yc=y/10;
                     xc=x/40;
-                    if(tabcases[yc][xc].type!=0||tabcases[yc -2][xc +1].type!=0||tabcases[yc -2][xc -1].type!=0||tabcases[yc -2][xc ].type != 0||tabcases[yc-1][xc ].type != 0||tabcases[yc -3][xc ].type != 0||tabcases[yc -4][xc ].type != 0 ||tabcases[yc -4][xc ].type != 0 )continue;
+                    if(tabcases[yc -5][xc -3].type !=0||tabcases[yc -2][xc +1].type!=0||tabcases[yc -3][xc -2].type !=0||tabcases[yc -1][xc +1].type!=0||tabcases[yc -3][xc +2].type !=0|| tabcases[yc ][xc ].type != 0||tabcases[yc -2][xc ].type != 0 || tabcases[yc -4][xc ].type != 0|| tabcases[yc -6][xc ].type != 0||tabcases[yc -8][xc -1].type != 0 ||tabcases[yc -2][xc -1].type != 0 || tabcases[yc -2][xc +1].type != 0|| tabcases[yc -4][xc -2].type != 0||tabcases[yc -4][xc -1].type != 0)continue;
+                    draw_sprite(page,bitmaps->chateau,x-100,y -80   );
+                    if(yc%2==0){
+
+
+                        tabcases[yc -5][xc -3].type = 3;
+                        tabcases[yc -3][xc -2].type = 3;
+                        tabcases[yc -1][xc].type = 3;
+                        tabcases[yc -7][xc -2].type = 3;
+                        tabcases[yc -1][xc -1].type = 3;
+                    }
+                    else{
+
+                        tabcases[yc -1][xc +1].type = 3;
+                        tabcases[yc -3][xc +2].type = 3;
+                        tabcases[yc -5][xc +1].type = 3;
+                        tabcases[yc -7][xc ].type = 3;
+                        tabcases[yc -1][xc].type = 3;
+
+
+                    }
+                    tabcases[yc ][xc ].type = 3;
+                    tabcases[yc -2][xc ].type = 3;
+                    tabcases[yc -4][xc ].type = 3;
+                    tabcases[yc -6][xc ].type = 3;
+                    tabcases[yc -8][xc -1].type = 3;
+                    tabcases[yc -2][xc -1].type = 3;
+                    tabcases[yc -2][xc +1].type = 3;
+                    tabcases[yc -4][xc -2].type = 3;
+                    tabcases[yc -4][xc -1].type = 3;
+                    tabcases[yc -4][xc +1].type = 3;
+                    tabcases[yc -6][xc -2].type = 3;
+                    tabcases[yc -6][xc -1].type = 3;
+                    tabcases[yc -3][xc -1].type = 3;
+                    tabcases[yc -3][xc ].type = 3;
+                    tabcases[yc -3][xc +1].type = 3;
+                    tabcases[yc -5][xc ].type = 3;
+                    tabcases[yc -5][xc -1].type = 3;
+                    tabcases[yc -5][xc -2].type = 3;
+                    tabcases[yc -7][xc -1].type = 3;
+                }
+                if(mouse_b&2){
+                    break;
+                }
+
+                blit(page,rect,0,0,0,0,SCREEN_W,SCREEN_H);show_mouse(rect);
+                draw_sprite(rect,bitmaps->chateau,mouse_x-63,mouse_y-60 );
+                show_mouse(rect);
+                blit(rect,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+                Sleep(50);
+            }
+
+        }
+        if(getpixel(bitmaps->bufferDeDetection,mouse_x,mouse_y)== makecol(30, 0, 30)&&mouse_b&1){
+
+            clear_bitmap(bitmaps->page);
+            Sleep(100);
+            while(true){
+                if(mouse_b&1&& mouse_x>20)
+                {
+
+                    x=mouse_x/40;
+                    y=mouse_y/20;
+                    if(mouse_x<(x+1)*40-20)
+                    {
+                        if(x!=0)x=x*40-20;
+                        if(y!=0)y=y*20-10;
+                    }
+                    else
+                    {
+                        x=x*40;
+                        y=y*20;
+                    }
+                    yc=y/10;
+                    xc=x/40;
+                    if(tabcases[yc -5][xc -3].type !=0||tabcases[yc -2][xc +1].type!=0||tabcases[yc -3][xc -2].type !=0||tabcases[yc -1][xc +1].type!=0||tabcases[yc -3][xc +2].type !=0|| tabcases[yc ][xc ].type != 0||tabcases[yc -2][xc ].type != 0 || tabcases[yc -4][xc ].type != 0|| tabcases[yc -6][xc ].type != 0||tabcases[yc -8][xc -1].type != 0 ||tabcases[yc -2][xc -1].type != 0 || tabcases[yc -2][xc +1].type != 0|| tabcases[yc -4][xc -2].type != 0||tabcases[yc -4][xc -1].type != 0)continue;
                     draw_sprite(page,bitmaps->centrale,x-100,y -80   );
                     if(yc%2==0){
 
@@ -560,11 +637,6 @@ void outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35])
                 blit(rect,screen,0,0,0,0,SCREEN_W,SCREEN_H);
                 Sleep(50);
             }
-
-        }
-        if(getpixel(bitmaps->bufferDeDetection,mouse_x,mouse_y)== makecol(30, 0, 30)&&mouse_b&1){
-
-            clear_bitmap(bitmaps->page);
 
         }
 

@@ -16,6 +16,8 @@ typedef struct graph{
     BITMAP* route;
     BITMAP* chateau;
     BITMAP* centrale;
+    BITMAP* chateauD;
+    BITMAP* centraleD;
     BITMAP* terrain;
     BITMAP* pause;
     BITMAP* sauvegarde;
