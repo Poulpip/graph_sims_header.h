@@ -15,10 +15,7 @@ void initAllegro()
     return;
 }
 
-int trouver_distance()
-{
 
-}
 
 
 
@@ -193,7 +190,7 @@ Graphe * lire_graphe(int type)
     Graphe* graphe;
     FILE * ifs = fopen("graphe.txt","r");
 
-    int taille=0, orientation, ordre, s1, s2,p;
+    int taille=0, orientation, ordre, s1=0, s2=0,p=0;
     int distance=0;
     if (!ifs)
     {
@@ -221,7 +218,7 @@ Graphe * lire_graphe(int type)
     // CA CRASH PRCQ GRAPHE->pSOMMET PAS INITIALISé UNE FOIS DS CREER ARRETE PK ?
     for (int i=0; i<taille; ++i)
     {
-        fscanf(ifs,"%d%d%d",&s1,&s2,&p);
+       // fscanf(ifs,"%d%d%d",&s1,&s2,&p);
         graphe->pSommet=CreerArete(graphe->pSommet, s1, s2,p);
 
         if(!orientation)
@@ -232,7 +229,7 @@ Graphe * lire_graphe(int type)
     return graphe;
 }
 
-void MAJ_graph(int ordre)
+void MAJ_graph(int ordre,int taille, int S_et_P[3])
 {
     int* tmp;
     int cpt=0;
@@ -262,9 +259,154 @@ void MAJ_graph(int ordre)
                 }
             }
             fclose(f);
-            Sleep(200);
+
             return;
 }
+
+int trouver_distance(cases tabcases[75][35],int xc,int yc )
+{
+
+    int dist=1,cpt_taille=0,u=0,v=0;
+    int tmp=0;
+    int cmpt=1;
+    printf("yc:%d   xc:%d\n",yc,xc);
+    if(tabcases[yc][xc].type==2)
+    {
+        if (yc % 2 == 0) {
+            if(tabcases[yc+1][xc].type==1){
+                u= yc +1;
+                v=xc;
+            }
+            printf("uc:%d   vc:%d\n",u,v);
+            printf("type case bas droite: %d \n",tabcases[u+1][v+1].type);
+            printf("tmp:%d \n",tmp);
+            while(true){
+                if(tabcases[u-1][v+1].type==3 && tmp%2==0){
+                    break;
+                }
+                if(tabcases[u-1][v].type==3 && tmp%2==0){
+                    break;
+                }
+                if(tabcases[u+1][v+1].type==3 && tmp%2==0){
+                    break;
+                }
+                if(tabcases[u+1][v].type==3 && tmp%2==0){
+                    break;
+                }
+                if(tabcases[u-1][v-1].type==3 && tmp%2!=0){
+                    break;
+                }
+                if(tabcases[u-1][v].type==3 && tmp%2!=0){
+                    break;
+                }
+                if(tabcases[u+1][v-1].type==3 && tmp%2!=0){
+                    break;
+                }
+                if(tabcases[u+1][v].type==3 && tmp%2!=0){
+                    break;
+                }
+                cmpt++;
+                printf("uc:%d   vc:%d\n",u,v);
+                if(tmp%2==0){printf("type case bas droite: %d \n",tabcases[u+1][v+1].type);
+                    if(tabcases[u-1][v+1].type==1){
+                        u=u-1;
+                        v=v+1;
+                        printf("haut droite\n");
+                    }
+                    else if(tabcases[u-1][v].type==1){
+                        u=u-1;
+                        v=v;
+                        printf("haut gauche\n");
+                    }
+                    else if(tabcases[u+1][v+1].type==1){
+                        u=u+1;
+                        v=v+1;
+                        printf("bas droite\n");
+                    }
+                    else if(tabcases[u+1][v].type==1){
+                        u=u+1;
+                        v=v;
+                        printf("bas gauche\n");
+                    }
+
+                }
+                if(tmp%2!=0){printf("type case bas droite: %d \n",tabcases[u+1][v].type);
+
+                    if(tabcases[u-1][v].type==1){
+                        u=u-1;
+                        v=v;
+                        printf("haut droite\n")
+                    }
+                    else if(tabcases[u+1][v-1].type==1){
+                        u=u+1;
+                        v=v-1;
+                        printf("bas gauche\n")
+                    }
+                    else if(tabcases[u+1][v].type==1){
+                        u=u+1;
+                        v=v;
+                        printf("bas droite\n")
+                    }
+                    else if(tabcases[u-1][v-1].type==1){
+                        u=u-1;
+                        v=v-1;
+                        printf("haut gauche\n")
+                    }
+                }
+                printf("uca:%d  vca:%d\n",u,v);
+                tmp++;
+                printf("tmp:%d \n\n\n\n\n",tmp);
+            }
+            printf("chemin:%d",cmpt);
+        }
+        else
+        {printf("b");
+            for(int y=-1;y<2;y=y+2) {
+                for (int x = 1; x > 0; x--) {
+                    if(tabcases[yc - 1+y][xc + 1+x].type ==1)
+                    {
+                        u=yc - 1+y;
+                        v=xc + 1+x;
+                    }
+                    else if(tabcases[yc - 3+y][xc + 1+x].type ==1)
+                    {
+                        u=yc - 3+y;
+                        v=xc + 1+x;
+                    }
+                    if (tabcases[yc + y][xc + x].type == 1) {
+                        u = yc + y;
+                        v = xc + x;
+                    } else if (tabcases[yc - 2 + y][xc + 1 + x].type == 1) {
+                        u = yc - 2 + y;
+                        v = xc + 1 + x;
+                    } else if (tabcases[yc - 2 + y][xc - 1 + x].type == 1) {
+                        u = yc - 2 + y;
+                        v = xc - 1 + x;
+                    } else if (tabcases[yc - 2 + y][xc + x].type == 1) {
+                        u = yc - 2 + y;
+                        v = xc + x;
+                    } else if (tabcases[yc - 1 + y][xc + x].type == 1) {
+                        u = yc - 1 + y;
+                        v = xc + x;
+
+                    } else if (tabcases[yc - 3 + y][xc + x].type == 1) {
+                        u = yc - 3 + y;
+                        v = xc + x;
+                    } else if (tabcases[yc - 4 + y][xc + x].type == 1) {
+                        u = yc - 4 + y;
+                        v = xc + x;
+                    }
+                }
+            }
+        }
+
+
+        }
+
+    }
+
+
+
 Bitmaps* initialisation_bitmaps(){
 
 
@@ -361,7 +503,7 @@ void place_bat(Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35
     }
 }
 int outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35]){
-    int verif_y=0,yc=0,xc=0,type=0;
+    int verif_y=0,yc=0,xc=0,type=0,ordre;
     draw_sprite(rect,bitmaps->outils,965,0);
     int x,y;
     if (mouse_b & 1){
@@ -449,7 +591,7 @@ int outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35]){
             while(true){
                 if(mouse_b&1&& mouse_x>20)
                 {
-                    lire_graphe(type);
+
                     x=mouse_x/40;
                     y=mouse_y/20;
                     if(mouse_x<(x+1)*40-20)
@@ -469,7 +611,6 @@ int outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35]){
                     if(yc%2==0){
 
                         tabcases[yc-1][xc -1].type = 2;
-
                         tabcases[yc -3][xc -1].type = 2;
 
                     }
@@ -488,6 +629,7 @@ int outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35]){
                     tabcases[yc][xc].type = 2;
                     tabcases[yc -3][xc ].type = 2;
                     tabcases[yc -4][xc ].type = 2;
+                    break;
                 }
                 if(mouse_b&2){
                     break;
@@ -499,8 +641,8 @@ int outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35]){
                 blit(rect,screen,0,0,0,0,SCREEN_W,SCREEN_H);
                 Sleep(50);
             }
+            trouver_distance(tabcases,xc,yc);
 
-            lire_graphe(type);
         }
 
         if(getpixel(bitmaps->bufferDeDetection,mouse_x,mouse_y)== makecol(100, 0, 0)&&mouse_b&1){// pose le chateau d'eau
@@ -510,7 +652,7 @@ int outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35]){
             while(true){
                 if(mouse_b&1&& mouse_x>20)
                 {
-                    lire_graphe(type);
+
 
                     x=mouse_x/40;
                     y=mouse_y/20;
@@ -587,7 +729,7 @@ int outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35]){
             while(true){
                 if(mouse_b&1&& mouse_x>20)
                 {
-                    lire_graphe(type);
+
                     x=mouse_x/40;
                     y=mouse_y/20;
                     if(mouse_x<(x+1)*40-20)
