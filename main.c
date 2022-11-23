@@ -2,15 +2,17 @@
 
 int main()
 {
-    int ordre;
+    int ordre,type=0;
     initAllegro();
-    BITMAP *page,*rect,*it,*map;
+    BITMAP *page,*rect,*it;
     page = create_bitmap(SCREEN_W,SCREEN_H);
     clear_bitmap(page);
     rect = create_bitmap(SCREEN_W,SCREEN_H);
     clear_bitmap(rect);
-    map=load_bitmap("map.bmp",NULL);
+    BITMAP *map;
+    map=load_bitmap("menu/map.bmp",NULL);
     cases tabcases[75][35];
+
     Bitmaps *bitmaps=initialisation_bitmaps();
     for(int i=0;i<75;i++)
     {
@@ -26,16 +28,14 @@ int main()
     }
 
 
-
-   // blit(map,page,0,0,0,60,SCREEN_W,SCREEN_H);
     BITMAP* route;
     route= load_bitmap("routelosange.bmp",NULL);
 
-
+    draw_sprite(page,map,0,70);
     for(int i=0;i<64;i++)
     {
-        line(page,0,10+20*i,20+40*i,0,makecol(255,0,255));
-        line(page ,1024-40*i,0,1024,2+20*i,makecol(255,0,255));
+        line(page,0,10+20*i,20+40*i,0,makecol(86,122,56));
+        line(page ,1024-40*i,0,1024,2+20*i,makecol(86,122,56));
     }
 
     while (!key[KEY_ESC])
@@ -43,7 +43,9 @@ int main()
 
         clear_bitmap(rect);
         blit(page,rect,0,0,0,0,SCREEN_W,SCREEN_H);
-        outils(bitmaps,rect,page,tabcases);
+
+         outils(bitmaps,rect,page,tabcases);
+
         pause(bitmaps->pause,page);
         sauvegarde(bitmaps->sauvegarde,page);
         quitter(bitmaps->quitter,page);

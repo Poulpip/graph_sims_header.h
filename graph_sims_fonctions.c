@@ -25,6 +25,7 @@ int trouver_distance()
 
 pSommet* CreerArete(pSommet* sommet,int s1,int s2,int distance)
 {
+
     if(sommet[s1]->arc==NULL)
     {
         pArc Newarc=(pArc)malloc(sizeof(struct Arc));
@@ -34,7 +35,6 @@ pSommet* CreerArete(pSommet* sommet,int s1,int s2,int distance)
         sommet[s1]->arc=Newarc;
         return sommet;
     }
-
     else
     {
         pArc temp=sommet[s1]->arc;
@@ -78,6 +78,7 @@ Graphe* CreerGraphe(int ordre,int type)// cr�er le graphe
         switch(type)
         {
             case 0:
+                Newgraphe->pSommet[i]->habitation=malloc(sizeof(habitation));
                 Newgraphe->pSommet[i]->habitation->taxe=0;
                 Newgraphe->pSommet[i]->habitation->demande_eau=1;
                 Newgraphe->pSommet[i]->habitation->demande_electricite=1;
@@ -91,6 +92,7 @@ Graphe* CreerGraphe(int ordre,int type)// cr�er le graphe
                 Newgraphe->pSommet[i]->type=type;
                 break;
             case 1:
+                Newgraphe->pSommet[i]->habitation=malloc(sizeof(habitation));
                 Newgraphe->pSommet[i]->habitation->taxe=0;
                 Newgraphe->pSommet[i]->habitation->demande_eau=1;
                 Newgraphe->pSommet[i]->habitation->demande_electricite=1;
@@ -104,6 +106,7 @@ Graphe* CreerGraphe(int ordre,int type)// cr�er le graphe
                 Newgraphe->pSommet[i]->type=type;
                 break;
             case 2:
+                Newgraphe->pSommet[i]->habitation=malloc(sizeof(habitation));
                 Newgraphe->pSommet[i]->habitation->taxe=100;
                 Newgraphe->pSommet[i]->habitation->demande_eau=10;
                 Newgraphe->pSommet[i]->habitation->demande_electricite=10;
@@ -117,6 +120,7 @@ Graphe* CreerGraphe(int ordre,int type)// cr�er le graphe
                 Newgraphe->pSommet[i]->type=type;
                 break;
             case 3:
+                Newgraphe->pSommet[i]->habitation=malloc(sizeof(habitation));
                 Newgraphe->pSommet[i]->habitation->taxe=500;
                 Newgraphe->pSommet[i]->habitation->demande_eau=50;
                 Newgraphe->pSommet[i]->habitation->demande_electricite=50;
@@ -130,6 +134,7 @@ Graphe* CreerGraphe(int ordre,int type)// cr�er le graphe
                 Newgraphe->pSommet[i]->type=type;
                 break;
             case 4:
+                Newgraphe->pSommet[i]->habitation=malloc(sizeof(habitation));
                 Newgraphe->pSommet[i]->habitation->taxe=1000;
                 Newgraphe->pSommet[i]->habitation->demande_eau=100;
                 Newgraphe->pSommet[i]->habitation->demande_electricite=100;
@@ -143,6 +148,7 @@ Graphe* CreerGraphe(int ordre,int type)// cr�er le graphe
                 Newgraphe->pSommet[i]->type=type;
                 break;
             case 5:
+                Newgraphe->pSommet[i]->habitation=malloc(sizeof(habitation));
                 Newgraphe->pSommet[i]->habitation->taxe=10000;
                 Newgraphe->pSommet[i]->habitation->demande_eau=1000;
                 Newgraphe->pSommet[i]->habitation->demande_electricite=1000;
@@ -156,19 +162,23 @@ Graphe* CreerGraphe(int ordre,int type)// cr�er le graphe
                 Newgraphe->pSommet[i]->type=type;
                 break;
             case 6:
+                Newgraphe->pSommet[i]->habitation=malloc(sizeof(ClefEnMain));
                 Newgraphe->pSommet[i]->ClefEnMain->approvisionnement=0;
                 Newgraphe->pSommet[i]->ClefEnMain->capa=1000;
                 Newgraphe->pSommet[i]->ClefEnMain->temps=0;
                 Newgraphe->pSommet[i]->habitation=NULL;
                 Newgraphe->pSommet[i]->marque=0;
                 Newgraphe->pSommet[i]->type=type;
+                break;
             case 7:
+                Newgraphe->pSommet[i]->habitation=malloc(sizeof(ClefEnMain));
                 Newgraphe->pSommet[i]->ClefEnMain->approvisionnement=0;
                 Newgraphe->pSommet[i]->ClefEnMain->capa=1000;
                 Newgraphe->pSommet[i]->ClefEnMain->temps=0;
                 Newgraphe->pSommet[i]->habitation=NULL;
                 Newgraphe->pSommet[i]->marque=0;
                 Newgraphe->pSommet[i]->type=type;
+                break;
         }
 
     }
@@ -178,14 +188,13 @@ Graphe* CreerGraphe(int ordre,int type)// cr�er le graphe
 /* La construction du r�seau peut se faire � partir d'un fichier dont le nom est pass� en param�tre
 Le fichier contient : ordre, taille,orientation (0 ou 1)et liste des arcs */
 
-Graphe * lire_graphe(char * nomFichier)
+Graphe * lire_graphe(int type)
 {
     Graphe* graphe;
-    FILE * ifs = fopen(nomFichier,"r");
-    int taille, orientation, ordre, s1, s2,p;
+    FILE * ifs = fopen("graphe.txt","r");
 
+    int taille=0, orientation, ordre, s1, s2,p;
     int distance=0;
-
     if (!ifs)
     {
         printf("Erreur de lecture fichier\n");
@@ -200,7 +209,7 @@ Graphe * lire_graphe(char * nomFichier)
     {
         fscanf(ifs,"%d",&Lsommets[i]);
     }
-    graphe=CreerGraphe(ordre,distance); // cr�er le graphe d'ordre sommets
+    graphe=CreerGraphe(ordre,type); // cr�er le graphe d'ordre sommets
 
     fscanf(ifs,"%d",&taille);
 
@@ -208,6 +217,8 @@ Graphe * lire_graphe(char * nomFichier)
     graphe->taille=taille;
 
     // crer les ar�tes du graphe
+
+    // CA CRASH PRCQ GRAPHE->pSOMMET PAS INITIALISé UNE FOIS DS CREER ARRETE PK ?
     for (int i=0; i<taille; ++i)
     {
         fscanf(ifs,"%d%d%d",&s1,&s2,&p);
@@ -349,11 +360,10 @@ void place_bat(Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35
 
     }
 }
-void outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35]){
-    int verif_y=0,yc=0,xc=0;
+int outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35]){
+    int verif_y=0,yc=0,xc=0,type=0;
     draw_sprite(rect,bitmaps->outils,965,0);
     int x,y;
-
     if (mouse_b & 1){
 
             if ((mouse_x >= 965) && ( mouse_x <=1019 )&&(mouse_y >= 0) && (mouse_y <= 50)){
@@ -383,7 +393,7 @@ void outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35])
            clear_bitmap(bitmaps->page);
 
            }
-        if(getpixel(bitmaps->bufferDeDetection,mouse_x,mouse_y)== makecol(255, 255, 0)&&mouse_b&1){
+        if(getpixel(bitmaps->bufferDeDetection,mouse_x,mouse_y)== makecol(255, 255, 0)&&mouse_b&1){//pose la route
             clear_bitmap(bitmaps->page);
             Sleep(50);
             while(true){
@@ -432,13 +442,14 @@ void outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35])
             }
 
         }
-        if(getpixel(bitmaps->bufferDeDetection,mouse_x,mouse_y)== makecol(200, 200, 0)&&mouse_b&1){
+        if(getpixel(bitmaps->bufferDeDetection,mouse_x,mouse_y)== makecol(200, 200, 0)&&mouse_b&1){//pose le terrain vague
             clear_bitmap(bitmaps->page);
             Sleep(100);
+            type=1;
             while(true){
                 if(mouse_b&1&& mouse_x>20)
                 {
-
+                    lire_graphe(type);
                     x=mouse_x/40;
                     y=mouse_y/20;
                     if(mouse_x<(x+1)*40-20)
@@ -488,14 +499,18 @@ void outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35])
                 blit(rect,screen,0,0,0,0,SCREEN_W,SCREEN_H);
                 Sleep(50);
             }
+
+            lire_graphe(type);
         }
 
-        if(getpixel(bitmaps->bufferDeDetection,mouse_x,mouse_y)== makecol(100, 0, 0)&&mouse_b&1){
+        if(getpixel(bitmaps->bufferDeDetection,mouse_x,mouse_y)== makecol(100, 0, 0)&&mouse_b&1){// pose le chateau d'eau
             clear_bitmap(bitmaps->page);
             Sleep(100);
+            type=7;
             while(true){
                 if(mouse_b&1&& mouse_x>20)
                 {
+                    lire_graphe(type);
 
                     x=mouse_x/40;
                     y=mouse_y/20;
@@ -512,7 +527,7 @@ void outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35])
                     yc=y/10;
                     xc=x/40;
                     if(tabcases[yc -5][xc -3].type !=0||tabcases[yc -2][xc +1].type!=0||tabcases[yc -3][xc -2].type !=0||tabcases[yc -1][xc +1].type!=0||tabcases[yc -3][xc +2].type !=0|| tabcases[yc ][xc ].type != 0||tabcases[yc -2][xc ].type != 0 || tabcases[yc -4][xc ].type != 0|| tabcases[yc -6][xc ].type != 0||tabcases[yc -8][xc -1].type != 0 ||tabcases[yc -2][xc -1].type != 0 || tabcases[yc -2][xc +1].type != 0|| tabcases[yc -4][xc -2].type != 0||tabcases[yc -4][xc -1].type != 0)continue;
-                    draw_sprite(page,bitmaps->chateau,x-100,y -80   );
+                    draw_sprite(page,bitmaps->chateau,x-100,y -80  );
                     if(yc%2==0){
 
 
@@ -563,15 +578,16 @@ void outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35])
                 Sleep(50);
             }
 
-        }
-        if(getpixel(bitmaps->bufferDeDetection,mouse_x,mouse_y)== makecol(30, 0, 30)&&mouse_b&1){
 
+        }
+        if(getpixel(bitmaps->bufferDeDetection,mouse_x,mouse_y)== makecol(30, 0, 30)&&mouse_b&1){//pose la centrale
+            type=6;
             clear_bitmap(bitmaps->page);
             Sleep(100);
             while(true){
                 if(mouse_b&1&& mouse_x>20)
                 {
-
+                    lire_graphe(type);
                     x=mouse_x/40;
                     y=mouse_y/20;
                     if(mouse_x<(x+1)*40-20)
@@ -591,41 +607,41 @@ void outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35])
                     if(yc%2==0){
 
 
-                        tabcases[yc -5][xc -3].type = 3;
-                        tabcases[yc -3][xc -2].type = 3;
-                        tabcases[yc -1][xc].type = 3;
-                        tabcases[yc -7][xc -2].type = 3;
-                        tabcases[yc -1][xc -1].type = 3;
+                        tabcases[yc -5][xc -3].type = 4;
+                        tabcases[yc -3][xc -2].type =4 ;
+                        tabcases[yc -1][xc].type = 4;
+                        tabcases[yc -7][xc -2].type = 4;
+                        tabcases[yc -1][xc -1].type = 4;
                     }
                     else{
 
-                        tabcases[yc -1][xc +1].type = 3;
-                        tabcases[yc -3][xc +2].type = 3;
-                        tabcases[yc -5][xc +1].type = 3;
-                        tabcases[yc -7][xc ].type = 3;
-                        tabcases[yc -1][xc].type = 3;
+                        tabcases[yc -1][xc +1].type = 4;
+                        tabcases[yc -4][xc +2].type = 4;
+                        tabcases[yc -5][xc +1].type = 4;
+                        tabcases[yc -7][xc ].type = 4;
+                        tabcases[yc -1][xc].type = 4;
 
 
                     }
-                    tabcases[yc ][xc ].type = 3;
-                    tabcases[yc -2][xc ].type = 3;
-                    tabcases[yc -4][xc ].type = 3;
-                    tabcases[yc -6][xc ].type = 3;
-                    tabcases[yc -8][xc -1].type = 3;
-                    tabcases[yc -2][xc -1].type = 3;
-                    tabcases[yc -2][xc +1].type = 3;
-                    tabcases[yc -4][xc -2].type = 3;
-                    tabcases[yc -4][xc -1].type = 3;
-                    tabcases[yc -4][xc +1].type = 3;
-                    tabcases[yc -6][xc -2].type = 3;
-                    tabcases[yc -6][xc -1].type = 3;
-                    tabcases[yc -3][xc -1].type = 3;
-                    tabcases[yc -3][xc ].type = 3;
-                    tabcases[yc -3][xc +1].type = 3;
-                    tabcases[yc -5][xc ].type = 3;
-                    tabcases[yc -5][xc -1].type = 3;
-                    tabcases[yc -5][xc -2].type = 3;
-                    tabcases[yc -7][xc -1].type = 3;
+                    tabcases[yc ][xc ].type = 4;
+                    tabcases[yc -2][xc ].type = 4;
+                    tabcases[yc -4][xc ].type = 4;
+                    tabcases[yc -6][xc ].type = 4;
+                    tabcases[yc -8][xc -1].type = 4;
+                    tabcases[yc -2][xc -1].type = 4;
+                    tabcases[yc -2][xc +1].type = 4;
+                    tabcases[yc -4][xc -2].type = 4;
+                    tabcases[yc -4][xc -1].type = 4;
+                    tabcases[yc -4][xc +1].type = 4;
+                    tabcases[yc -6][xc -2].type = 4;
+                    tabcases[yc -6][xc -1].type = 4;
+                    tabcases[yc -3][xc -1].type = 4;
+                    tabcases[yc -3][xc ].type = 4;
+                    tabcases[yc -3][xc +1].type = 4;
+                    tabcases[yc -5][xc ].type = 4;
+                    tabcases[yc -5][xc -1].type = 4;
+                    tabcases[yc -5][xc -2].type = 4;
+                    tabcases[yc -7][xc -1].type = 4;
                 }
                 if(mouse_b&2){
                     break;
@@ -644,7 +660,7 @@ void outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35])
 
     if(getpixel(bitmaps->page,256,192)== makecol(200,255,255))blit(bitmaps->page,rect,256, 192, 256, 192,512, 350);
 
-
+return type;
 }
 
 /*

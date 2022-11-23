@@ -92,9 +92,9 @@ typedef struct Graphe
 
 }Graphe;
 
-/*
+
 void initAllegro();
-void MAJ_graph(int ordre);
+/*void MAJ_graph(int ordre);
 void niveaux(BITMAP* niveau0,BITMAP* niveau_1,BITMAP* niveau_2,BITMAP* page);
 void pause(BITMAP* pause, BITMAP* page);
 
