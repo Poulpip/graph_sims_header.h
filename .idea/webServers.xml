@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="1f1eaec3-163d-4a05-8576-b7b8223bad82" name="gr87">
+        <fileTransfer rootFolder="/home/pi" accessType="SFTP" host="gr87" port="22" sshConfigId="661d41f7-c32a-4f80-b8e8-d868711a03ad" sshConfig="pi@gr87:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
