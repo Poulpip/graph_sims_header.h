@@ -15,16 +15,14 @@ void initAllegro()
     return;
 }
 
-int trouver_distance()
-{
 
-}
 
 
 
 
 pSommet* CreerArete(pSommet* sommet,int s1,int s2,int distance)
 {
+
     if(sommet[s1]->arc==NULL)
     {
         pArc Newarc=(pArc)malloc(sizeof(struct Arc));
@@ -34,7 +32,6 @@ pSommet* CreerArete(pSommet* sommet,int s1,int s2,int distance)
         sommet[s1]->arc=Newarc;
         return sommet;
     }
-
     else
     {
         pArc temp=sommet[s1]->arc;
@@ -63,7 +60,7 @@ pSommet* CreerArete(pSommet* sommet,int s1,int s2,int distance)
 }
 
 
-Graphe* CreerGraphe(int ordre,int type)// cr�er le graphe
+Graphe* CreerGraphe(int ordre,int *types)// cr�er le graphe
 {
     Graphe * Newgraphe=(Graphe*)malloc(sizeof(Graphe));
 
@@ -75,9 +72,10 @@ Graphe* CreerGraphe(int ordre,int type)// cr�er le graphe
         Newgraphe->pSommet[i]=(pSommet)malloc(sizeof(struct Sommet));
         Newgraphe->pSommet[i]->num=i;
         Newgraphe->pSommet[i]->arc=NULL;
-        switch(type)
+        switch(types[i])
         {
-            case 0:
+            case 10:
+                Newgraphe->pSommet[i]->habitation=malloc(sizeof(habitation));
                 Newgraphe->pSommet[i]->habitation->taxe=0;
                 Newgraphe->pSommet[i]->habitation->demande_eau=1;
                 Newgraphe->pSommet[i]->habitation->demande_electricite=1;
@@ -88,9 +86,10 @@ Graphe* CreerGraphe(int ordre,int type)// cr�er le graphe
                 Newgraphe->pSommet[i]->habitation->temps=0;
                 Newgraphe->pSommet[i]->ClefEnMain=NULL;
                 Newgraphe->pSommet[i]->marque=0;
-                Newgraphe->pSommet[i]->type=type;
+                Newgraphe->pSommet[i]->type=types[i];
                 break;
-            case 1:
+            case 2:
+                Newgraphe->pSommet[i]->habitation=malloc(sizeof(habitation));
                 Newgraphe->pSommet[i]->habitation->taxe=0;
                 Newgraphe->pSommet[i]->habitation->demande_eau=1;
                 Newgraphe->pSommet[i]->habitation->demande_electricite=1;
@@ -101,9 +100,10 @@ Graphe* CreerGraphe(int ordre,int type)// cr�er le graphe
                 Newgraphe->pSommet[i]->habitation->temps=0;
                 Newgraphe->pSommet[i]->ClefEnMain=NULL;
                 Newgraphe->pSommet[i]->marque=0;
-                Newgraphe->pSommet[i]->type=type;
+                Newgraphe->pSommet[i]->type=types[i];
                 break;
-            case 2:
+            case 3:
+                Newgraphe->pSommet[i]->habitation=malloc(sizeof(habitation));
                 Newgraphe->pSommet[i]->habitation->taxe=100;
                 Newgraphe->pSommet[i]->habitation->demande_eau=10;
                 Newgraphe->pSommet[i]->habitation->demande_electricite=10;
@@ -114,9 +114,10 @@ Graphe* CreerGraphe(int ordre,int type)// cr�er le graphe
                 Newgraphe->pSommet[i]->habitation->temps=0;
                 Newgraphe->pSommet[i]->ClefEnMain=NULL;
                 Newgraphe->pSommet[i]->marque=0;
-                Newgraphe->pSommet[i]->type=type;
+                Newgraphe->pSommet[i]->type=types[i];
                 break;
-            case 3:
+            case 4:
+                Newgraphe->pSommet[i]->habitation=malloc(sizeof(habitation));
                 Newgraphe->pSommet[i]->habitation->taxe=500;
                 Newgraphe->pSommet[i]->habitation->demande_eau=50;
                 Newgraphe->pSommet[i]->habitation->demande_electricite=50;
@@ -127,9 +128,10 @@ Graphe* CreerGraphe(int ordre,int type)// cr�er le graphe
                 Newgraphe->pSommet[i]->habitation->temps=0;
                 Newgraphe->pSommet[i]->ClefEnMain=NULL;
                 Newgraphe->pSommet[i]->marque=0;
-                Newgraphe->pSommet[i]->type=type;
+                Newgraphe->pSommet[i]->type=types[i];
                 break;
-            case 4:
+            case 5:
+                Newgraphe->pSommet[i]->habitation=malloc(sizeof(habitation));
                 Newgraphe->pSommet[i]->habitation->taxe=1000;
                 Newgraphe->pSommet[i]->habitation->demande_eau=100;
                 Newgraphe->pSommet[i]->habitation->demande_electricite=100;
@@ -140,9 +142,10 @@ Graphe* CreerGraphe(int ordre,int type)// cr�er le graphe
                 Newgraphe->pSommet[i]->habitation->temps=0;
                 Newgraphe->pSommet[i]->ClefEnMain=NULL;
                 Newgraphe->pSommet[i]->marque=0;
-                Newgraphe->pSommet[i]->type=type;
+                Newgraphe->pSommet[i]->type=types[i];
                 break;
-            case 5:
+            case 6:
+                Newgraphe->pSommet[i]->habitation=malloc(sizeof(habitation));
                 Newgraphe->pSommet[i]->habitation->taxe=10000;
                 Newgraphe->pSommet[i]->habitation->demande_eau=1000;
                 Newgraphe->pSommet[i]->habitation->demande_electricite=1000;
@@ -153,22 +156,26 @@ Graphe* CreerGraphe(int ordre,int type)// cr�er le graphe
                 Newgraphe->pSommet[i]->habitation->temps=0;
                 Newgraphe->pSommet[i]->ClefEnMain=NULL;
                 Newgraphe->pSommet[i]->marque=0;
-                Newgraphe->pSommet[i]->type=type;
+                Newgraphe->pSommet[i]->type=types[i];
                 break;
-            case 6:
-                Newgraphe->pSommet[i]->ClefEnMain->approvisionnement=0;
-                Newgraphe->pSommet[i]->ClefEnMain->capa=1000;
-                Newgraphe->pSommet[i]->ClefEnMain->temps=0;
-                Newgraphe->pSommet[i]->habitation=NULL;
-                Newgraphe->pSommet[i]->marque=0;
-                Newgraphe->pSommet[i]->type=type;
             case 7:
+                Newgraphe->pSommet[i]->ClefEnMain=malloc(sizeof(ClefEnMain));
                 Newgraphe->pSommet[i]->ClefEnMain->approvisionnement=0;
                 Newgraphe->pSommet[i]->ClefEnMain->capa=1000;
                 Newgraphe->pSommet[i]->ClefEnMain->temps=0;
                 Newgraphe->pSommet[i]->habitation=NULL;
                 Newgraphe->pSommet[i]->marque=0;
-                Newgraphe->pSommet[i]->type=type;
+                Newgraphe->pSommet[i]->type=types[i];
+                break;
+            case 8:
+                Newgraphe->pSommet[i]->ClefEnMain=malloc(sizeof(ClefEnMain));
+                Newgraphe->pSommet[i]->ClefEnMain->approvisionnement=0;
+                Newgraphe->pSommet[i]->ClefEnMain->capa=1000;
+                Newgraphe->pSommet[i]->ClefEnMain->temps=0;
+                Newgraphe->pSommet[i]->habitation=NULL;
+                Newgraphe->pSommet[i]->marque=0;
+                Newgraphe->pSommet[i]->type=types[i];
+                break;
         }
 
     }
@@ -178,94 +185,450 @@ Graphe* CreerGraphe(int ordre,int type)// cr�er le graphe
 /* La construction du r�seau peut se faire � partir d'un fichier dont le nom est pass� en param�tre
 Le fichier contient : ordre, taille,orientation (0 ou 1)et liste des arcs */
 
-Graphe * lire_graphe(char * nomFichier)
+Graphe * lire_graphe()
 {
     Graphe* graphe;
-    FILE * ifs = fopen(nomFichier,"r");
-    int taille, orientation, ordre, s1, s2,p;
+    FILE * ifs = fopen("graphe.txt","r");
 
+    int taille=0, ordre=0;
     int distance=0;
-
     if (!ifs)
     {
         printf("Erreur de lecture fichier\n");
         exit(-1);
     }
 
-    fscanf(ifs,"%d",&ordre);
+    fscanf(ifs,"%d %d",&ordre,&taille);
 
-    int *Lsommets=(int*)malloc(ordre*sizeof(int));
+    int *types=(int*)malloc(ordre*sizeof(int));
+    int *s1=(int*)malloc(ordre*sizeof(int));
+    int *s2=(int*)malloc(ordre*sizeof(int));
+    int *p=(int*)malloc(ordre*sizeof(int));
 
-    for(int i=0; i<ordre; i++)
+    for(int i=0; i<taille; i++)
     {
-        fscanf(ifs,"%d",&Lsommets[i]);
-    }
-    graphe=CreerGraphe(ordre,distance); // cr�er le graphe d'ordre sommets
+        fscanf(ifs,"%d %d %d",&s1[i],&s2[i],&p[i]);
+        fscanf(ifs,"%d %d",&types[s1[i]],&types[s2[i]]);
 
-    fscanf(ifs,"%d",&taille);
+    }
+    graphe=CreerGraphe(ordre,types); // cr�er le graphe d'ordre sommets
+
 
     graphe->ordre=ordre;
     graphe->taille=taille;
 
     // crer les ar�tes du graphe
+
+    // CA CRASH PRCQ GRAPHE->pSOMMET PAS INITIALISé UNE FOIS DS CREER ARRETE PK ?
     for (int i=0; i<taille; ++i)
     {
-        fscanf(ifs,"%d%d%d",&s1,&s2,&p);
-        graphe->pSommet=CreerArete(graphe->pSommet, s1, s2,p);
 
-        if(!orientation)
-            graphe->pSommet=CreerArete(graphe->pSommet, s2, s1,p);
+        graphe->pSommet=CreerArete(graphe->pSommet, s1[i], s2[i],p[i]);
+        graphe->pSommet=CreerArete(graphe->pSommet, s2[i], s1[i],p[i]);
     }
-
+    printf("\n ahaha %d",graphe->pSommet[0]->ClefEnMain->capa);
 
     return graphe;
 }
 
-void MAJ_graph(int ordre)
+void MAJ_graph_txt(int S_et_P[5],Bitmaps* bitmaps)
 {
+    int taille=0, ordre=0;
     int* tmp;
     int cpt=0;
     FILE* f;
-            f=fopen("graphe.txt","r");
-            fscanf(f,"%d",&ordre);
-            fclose(f);
-            //printf("ordre: %d\n");
-            ordre ++;
-            tmp = malloc(ordre*sizeof(int));
 
-            f=fopen("graphe.txt","r");
-            for(int i = 0;i<ordre*3 ;i++){
-                fscanf(f,"%d",&tmp[i]);
-               // printf("%d",tmp[i]);
-            }//printf("\n");
-            fclose(f);
+    tmp = malloc((bitmaps->taille*5 +2) *sizeof(int));
+    f=fopen("graphe.txt","r");
+    fscanf(f,"%d",&ordre);
+    fscanf(f,"%d",&taille);
+    printf("\nordre:%d taille:%d\n",ordre, taille);
+    if(ordre>0){
+        for(int i = 0;i<bitmaps->taille*5 ;i++){
+            fscanf(f,"%d",&tmp[i]);
+        }
+    }
+    fclose(f);
 
-            f=fopen("graphe.txt","w");
-            fprintf(f,"%d\n",ordre);
-            for(int k = 1;k<ordre*3 +1 ;k++){
-                fprintf(f,"%d ",tmp[k]);
-                cpt++;
-                if(cpt==3){
-                    fprintf(f,"\n");
-                    cpt=0;
-                }
+
+    f=fopen("graphe.txt","w");
+    fprintf(f,"%d",bitmaps->idsommet);
+    fprintf(f," %d\n",bitmaps->taille);
+    if(ordre>0){
+        for(int k = 0;k<(bitmaps->taille -1)*5 ;k++){
+            fprintf(f,"%d ",tmp[k]);
+            cpt++;
+            if(cpt==5){
+                fprintf(f,"\n");
+                cpt=0;
             }
-            fclose(f);
-            Sleep(200);
-            return;
+        }
+    }
+    for(int k = 0;k<5 ;k++){
+        fprintf(f,"%d ",S_et_P[k]);
+        cpt++;
+
+    }
+    fclose(f);
+
+    return;
 }
+
+
+int trouver_distance(cases tabcases[75][35],int xc,int yc, Bitmaps* bitmaps)
+{
+    int tab_sav[5];
+    int dist=1,cpt_taille=0,u=0,v=0;
+    int tmp=0;
+    int cmpt=1;
+    printf("yc:%d   xc:%d\n",yc,xc);
+    if(tabcases[yc][xc].type==2)
+    {
+        if (yc % 2 == 0) {
+            printf("on commence sur une case pair\n");
+            tmp=0;
+            cmpt=1;
+            if(tabcases[yc+1][xc].type==1){
+                u= yc +1;
+                v=xc;
+                tabcases[u][v].passage=1;
+            }
+            printf("uc:%d   vc:%d\n",u,v);
+            printf("type case bas droite: %d \n",tabcases[u+1][v+1].type);
+            printf("tmp:%d \n",tmp);
+            while(true){
+                if(tabcases[u-1][v+1].type ==8 && tmp%2==0){
+                    u=u-1;
+                    v=v+1;
+                    break;
+                }
+                if(tabcases[u-1][v].type ==8 && tmp%2==0){
+                    u=u-1;
+                    break;
+                }
+                if(tabcases[u+1][v+1].type ==8 && tmp%2==0){
+                    u=u+1;
+                    v=v+1;
+                    break;
+                }
+                if(tabcases[u+1][v].type ==8 && tmp%2==0){
+                    u=u+1;
+                    break;
+                }
+                if(tabcases[u-1][v-1].type ==8 && tmp%2!=0){
+                    u=u-1;
+                    v=v-1;
+                    break;
+                }
+                if(tabcases[u-1][v].type ==8 && tmp%2!=0){
+                    u=u-1;
+                    break;
+                }
+                if(tabcases[u+1][v-1].type ==8 && tmp%2!=0){
+                    u=u+1;
+                    v=v-1;
+                    break;
+                }
+                if(tabcases[u+1][v].type ==8 && tmp%2!=0){
+                    u=u+1;
+                    break;
+                }
+                if(tabcases[u-1][v+1].type ==7 && tmp%2==0){
+                    u=u-1;
+                    v=v+1;
+                    break;
+                }
+                if(tabcases[u-1][v].type ==7 && tmp%2==0){
+                    u=u-1;
+                    break;
+                }
+                if(tabcases[u+1][v+1].type ==7 && tmp%2==0){
+                    u=u+1;
+                    v=v+1;
+                    break;
+                }
+                if(tabcases[u+1][v].type ==7 && tmp%2==0){
+                    u=u+1;
+                    break;
+                }
+                if(tabcases[u-1][v-1].type ==7 && tmp%2!=0){
+                    u=u-1;
+                    v=v-1;
+                    break;
+                }
+                if(tabcases[u-1][v].type ==7 && tmp%2!=0){
+                    u=u-1;
+                    break;
+                }
+                if(tabcases[u+1][v-1].type ==7 && tmp%2!=0){
+                    u=u+1;
+                    v=v-1;
+                    break;
+                }
+                if(tabcases[u+1][v].type ==7 && tmp%2!=0){
+                    u=u+1;
+                    break;
+                }
+                cmpt++;
+                printf("uc:%d   vc:%d\n",u,v);
+                if(tmp%2==0){printf("type case bas droite: %d \n",tabcases[u+1][v+1].type);
+                    if(tabcases[u-1][v+1].type==1 &&  tabcases[u-1][v+1].passage==0){
+                        u=u-1;
+                        v=v+1;
+                        tabcases[u][v].passage=1;
+                        printf("haut droite pair \n");
+                    }
+                    else if(tabcases[u-1][v].type==1 &&  tabcases[u-1][v].passage==0){
+                        printf("passage: %d \n",tabcases[u][v].passage);
+                        u=u-1;
+                        v=v;
+                        tabcases[u][v].passage=1;
+                        printf("haut gauche pair\n");
+                    }
+                    else if(tabcases[u+1][v+1].type==1 &&  tabcases[u+1][v+1].passage==0){
+                        u=u+1;
+                        v=v+1;
+                        tabcases[u][v].passage=1;
+                        printf("bas droite pair\n");
+                    }
+                    else if(tabcases[u+1][v].type==1 &&  tabcases[u+1][v].passage==0){
+                        u=u+1;
+                        v=v;
+                        tabcases[u][v].passage=1;
+                        printf("bas gauche pair\n");
+                    }
+
+                }
+                if(tmp%2!=0){printf("type case bas droite: %d \n",tabcases[u+1][v].type);
+
+                    if(tabcases[u-1][v].type==1  &&  tabcases[u-1][v].passage==0){
+                        u=u-1;
+                        v=v;
+                        tabcases[u][v].passage=1;
+                        printf("haut droite impair\n");
+                    }
+                    else if(tabcases[u+1][v-1].type==1 &&  tabcases[u+1][v-1].passage==0){
+                        u=u+1;
+                        v=v-1;
+                        tabcases[u][v].passage=1;
+                        printf("bas gauche impair\n");
+                    }
+                    else if(tabcases[u+1][v].type==1 &&  tabcases[u+1][v].passage==0){
+                        u=u+1;
+                        v=v;
+                        tabcases[u][v].passage=1;
+                        printf("bas droite impair\n");
+                    }
+                    else if(tabcases[u-1][v-1].type==1 &&  tabcases[u-1][v-1].passage==0){
+                        u=u-1;
+                        v=v-1;
+                        tabcases[u][v].passage=1;
+                        printf("haut gauche impair\n");
+                    }
+                }
+                printf("uca:%d  vca:%d\n",u,v);
+                tmp++;
+                printf("tmp:%d \n\n\n\n\n",tmp);
+            }
+            printf("s1:%d---%d--->s2:%d\n",tabcases[yc][xc].id,cmpt,tabcases[u][v].id);
+            bitmaps->taille++;
+            printf("taille:%d\n",bitmaps->taille);
+            tab_sav[0]=tabcases[yc][xc].id;
+            tab_sav[1]=tabcases[u][v].id;
+            tab_sav[2]=cmpt;
+            tab_sav[3]=tabcases[yc][xc].type;
+            tab_sav[4]=tabcases[u][v].type;
+            MAJ_graph_txt(tab_sav,bitmaps);
+        }
+        else//case impair
+        {
+            printf("on commence sur une case impair\n");
+            tmp=1;
+            cmpt=1;
+            if(tabcases[yc+1][xc+1].type==1){
+                u= yc +1;
+                v=xc+1;
+                tabcases[u][v].passage=1;
+            }
+            printf("uc:%d   vc:%d\n",u,v);
+            printf("type case bas droite: %d \n",tabcases[u+1][v].type);
+            printf("tmp:%d \n",tmp);
+            while(true){
+                if(tabcases[u-1][v+1].type ==8 && tmp%2!=0){
+                    u=u-1;
+                    v=v+1;
+                    break;
+                }
+                if(tabcases[u-1][v].type ==8 && tmp%2!=0){
+                    u=u-1;
+                    break;
+                }
+                if(tabcases[u+1][v+1].type ==8 && tmp%2!=0){
+                    u=u+1;
+                    v=v+1;
+                    break;
+                }
+                if(tabcases[u+1][v].type ==8 && tmp%2!=0){
+                    u=u+1;
+                    break;
+                }
+                if(tabcases[u-1][v-1].type ==8 && tmp%2==0){
+                    u=u-1;
+                    v=v-1;
+                    break;
+                }
+                if(tabcases[u-1][v].type ==8 && tmp%2==0){
+                    u=u-1;
+                    break;
+                }
+                if(tabcases[u+1][v-1].type ==8 && tmp%2==0){
+                    u=u+1;
+                    v=v-1;
+                    break;
+                }
+                if(tabcases[u+1][v].type ==8 && tmp%2==0){
+                    u=u+1;
+                    break;
+                }
+                if(tabcases[u-1][v+1].type ==7 && tmp%2!=0){
+                    u=u-1;
+                    v=v+1;
+                    break;
+                }
+                if(tabcases[u-1][v].type ==7 && tmp%2!=0){
+                    u=u-1;
+                    break;
+                }
+                if(tabcases[u+1][v+1].type ==7 && tmp%2!=0){
+                    u=u+1;
+                    v=v+1;
+                    break;
+                }
+                if(tabcases[u+1][v].type ==7 && tmp%2!=0){
+                    u=u+1;
+                    break;
+                }
+                if(tabcases[u-1][v-1].type ==7 && tmp%2==0){
+                    u=u-1;
+                    v=v-1;
+                    break;
+                }
+                if(tabcases[u-1][v].type ==7 && tmp%2==0){
+                    u=u-1;
+                    break;
+                }
+                if(tabcases[u+1][v-1].type ==7 && tmp%2==0){
+                    u=u+1;
+                    v=v-1;
+                    break;
+                }
+                if(tabcases[u+1][v].type ==7 && tmp%2==0){
+                    u=u+1;
+                    break;
+                }
+                cmpt++;
+                printf("uc:%d   vc:%d\n",u,v);
+                if(tmp%2==0){printf("type case bas droite: %d \n",tabcases[u+1][v+1].type);
+                    if(tabcases[u-1][v+1].type==1 &&  tabcases[u-1][v+1].passage==0){
+                        u=u-1;
+                        v=v+1;
+                        tabcases[u][v].passage=1;
+                        printf("haut droite pair \n");
+                    }
+                    else if(tabcases[u-1][v].type==1 &&  tabcases[u-1][v].passage==0){
+                        printf("passage: %d \n",tabcases[u][v].passage);
+                        u=u-1;
+                        v=v;
+                        tabcases[u][v].passage=1;
+                        printf("haut gauche pair\n");
+                    }
+                    else if(tabcases[u+1][v+1].type==1 &&  tabcases[u+1][v+1].passage==0){
+                        u=u+1;
+                        v=v+1;
+                        tabcases[u][v].passage=1;
+                        printf("bas droite pair\n");
+                    }
+                    else if(tabcases[u+1][v].type==1 &&  tabcases[u+1][v].passage==0){
+                        u=u+1;
+                        v=v;
+                        tabcases[u][v].passage=1;
+                        printf("bas gauche pair\n");
+                    }
+
+                }
+                if(tmp%2!=0){printf("type case bas droite: %d \n",tabcases[u+1][v].type);
+
+                    if(tabcases[u-1][v].type==1  &&  tabcases[u-1][v].passage==0){
+                        u=u-1;
+                        v=v;
+                        tabcases[u][v].passage=1;
+                        printf("haut droite impair\n");
+                    }
+                    else if(tabcases[u+1][v-1].type==1 &&  tabcases[u+1][v-1].passage==0){
+                        u=u+1;
+                        v=v-1;
+                        tabcases[u][v].passage=1;
+                        printf("bas gauche impair\n");
+                    }
+                    else if(tabcases[u+1][v].type==1 &&  tabcases[u+1][v].passage==0){
+                        u=u+1;
+                        v=v;
+                        tabcases[u][v].passage=1;
+                        printf("bas droite impair\n");
+                    }
+                    else if(tabcases[u-1][v-1].type==1 &&  tabcases[u-1][v-1].passage==0){
+                        u=u-1;
+                        v=v-1;
+                        tabcases[u][v].passage=1;
+                        printf("haut gauche impair\n");
+                    }
+                }
+                printf("uca:%d  vca:%d\n",u,v);
+                tmp++;
+                printf("tmp:%d \n\n\n\n\n",tmp);
+            }
+            if(u%2!=0){
+                cmpt++;
+                printf("s1:%d---%d--->s2:%d\n",tabcases[yc][xc].id,cmpt,tabcases[u][v].id);
+                bitmaps->taille++;
+                printf("taille:%d\n",bitmaps->taille);
+                tab_sav[0]=tabcases[yc][xc].id;
+                tab_sav[1]=tabcases[u][v].id;
+                tab_sav[2]=cmpt;
+                tab_sav[3]=tabcases[yc][xc].type;
+                tab_sav[4]=tabcases[u][v].type;
+                MAJ_graph_txt(tab_sav,bitmaps);
+            }
+            else{
+                cmpt++;
+                printf("s1:%d---%d--->s2:%d\n",tabcases[yc][xc].id,cmpt,tabcases[u][v].id);
+                bitmaps->taille++;
+                printf("taille:%d\n",bitmaps->taille);
+                tab_sav[0]=tabcases[yc][xc].id;
+                tab_sav[1]=tabcases[u][v].id;
+                tab_sav[2]=cmpt;
+                tab_sav[3]=tabcases[yc][xc].type;
+                tab_sav[4]=tabcases[u][v].type;
+                MAJ_graph_txt(tab_sav,bitmaps);
+            }
+        }
+
+
+        }
+
+    }
+
+
+
 Bitmaps* initialisation_bitmaps(){
 
 
 
 /////////////////////////////////////////////////////////////////////////////
 
-
     Bitmaps *Bitmaps = malloc(sizeof(Bitmaps));
 
-
     Bitmaps->outils = malloc(sizeof(Bitmaps->outils));
-
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -275,15 +638,16 @@ Bitmaps* initialisation_bitmaps(){
 
     Bitmaps->bufferDeDetection=create_bitmap(SCREEN_W,SCREEN_H);
 
-
     //////////////
 
     //chargez image sims city
     Bitmaps->route=load_bitmap("menu/route.bmp",NULL);
     Bitmaps->outils=load_bitmap("menu/outils.bmp",NULL);
+    Bitmaps->chateauD=load_bitmap("menu/chateauD.bmp",NULL);
+    Bitmaps->centraleD=load_bitmap("menu/centraleD.bmp",NULL);
     Bitmaps->chateau=load_bitmap("menu/chateau.bmp",NULL);
     Bitmaps->centrale=load_bitmap("menu/centrale.bmp",NULL);
-    Bitmaps->terrain=load_bitmap("menu/terrain.bmp",NULL);
+    Bitmaps->terrain=load_bitmap("menu/terrainvague1.bmp",NULL);
     Bitmaps->pause=load_bitmap("menu/pause.bmp",NULL);
     Bitmaps->sauvegarde=load_bitmap("menu/sauvegarde.bmp",NULL);
     Bitmaps->quitter=load_bitmap("menu/quitter.bmp",NULL);
@@ -294,23 +658,68 @@ Bitmaps* initialisation_bitmaps(){
     Bitmaps->constr = create_bitmap(40,20);
     clear_bitmap( Bitmaps->constr);
 
-
-
     if (!Bitmaps->pause)
     {
         allegro_message("simscity.bmp non trouve");
         exit(EXIT_FAILURE);
     }
 
-
     return Bitmaps;
 }
-void outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page){
+void place_bat(Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35],int x ,int y,int xc,int yc)
+{
+    clear_bitmap(bitmaps->page);
+    Sleep(50);
+    while(true){
+        if(mouse_b&1&& mouse_x>20){
 
+            x=mouse_x/40;
+            y=mouse_y/20;
+            if(mouse_x<(x+1)*40-20)
+            {
+                if(x!=0)x=x*40-20;
+                if(y!=0)y=y*20-10;
+            }
+            else
+            {
+                x=x*40;
+                y=y*20;
+            }
+            yc=y/10;
+            xc=x/40;
+            if(tabcases[yc][xc].type==0)
+            {
+                draw_sprite(page,bitmaps->route,x,y );
+                tabcases[yc][xc].type=1;
+                tabcases[yc][xc].x=x;
+                tabcases[yc][xc].y=y;
+
+                for(int k=0;k<75;k++){
+                    for(int l=0;l<35;l++){
+                        printf("%d ",tabcases[k][l].type);
+
+                    }printf("\n");
+                    if(k%2==0)printf(" ");
+                }printf("\n\n");
+            }
+
+        }
+        if(mouse_b&2){
+            break;
+        }
+
+        blit(page,rect,0,0,0,0,SCREEN_W,SCREEN_H);show_mouse(rect);
+        draw_sprite(rect,bitmaps->route,mouse_x-20,mouse_y-20 );
+
+        blit(rect,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+
+    }
+}
+int outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35]){
+    int verif_y=0,yc=0,xc=0,type=0,ordre;
+    Graphe *g;
     draw_sprite(rect,bitmaps->outils,965,0);
     int x,y;
-
-
     if (mouse_b & 1){
 
             if ((mouse_x >= 965) && ( mouse_x <=1019 )&&(mouse_y >= 0) && (mouse_y <= 50)){
@@ -321,11 +730,11 @@ void outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page){
                 line(bitmaps->page,256,250,768,250,makecol(110,140,160));
                 draw_sprite(bitmaps->page,bitmaps->route,260,270);
                 textprintf_ex(bitmaps->page, font, 360,270, makecol(110, 140, 160),-1,"Route : 10 ECE-flouz par unite de grille ");
-                draw_sprite(bitmaps->page,bitmaps->terrain,260,325);
+                stretch_sprite(bitmaps->page,bitmaps->terrain,260,325,60,30);
                 textprintf_ex(bitmaps->page, font, 360,345, makecol(110, 140, 160),-1,"Terrain vague : 1000 ECE-flouz ");
-                draw_sprite(bitmaps->page,bitmaps->chateau,260,400);
+                draw_sprite(bitmaps->page,bitmaps->chateauD,260,400);
                 textprintf_ex(bitmaps->page, font, 360,420, makecol(110, 140, 160),-1,"Chateau d'eau : 100 000 ECE-flouz ");
-                draw_sprite(bitmaps->page,bitmaps->centrale,260,475);
+                draw_sprite(bitmaps->page,bitmaps->centraleD,260,475);
                 draw_sprite(bitmaps->page,bitmaps->croixrouge,700,195);
                 rectfill(bitmaps->bufferDeDetection,700,195,750,245,makecol(255, 0, 0));
                 textprintf_ex(bitmaps->page, font, 360,495, makecol(110, 140, 160),-1,"Centrale : 100 000 ECE-flouz ");
@@ -340,44 +749,350 @@ void outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page){
            clear_bitmap(bitmaps->page);
 
            }
-        if(getpixel(bitmaps->bufferDeDetection,mouse_x,mouse_y)== makecol(255, 255, 0)&&mouse_b&1){
-
+        if(getpixel(bitmaps->bufferDeDetection,mouse_x,mouse_y)== makecol(255, 255, 0)&&mouse_b&1){//pose la route
             clear_bitmap(bitmaps->page);
+            rest(50);
             while(true){
-                clear_bitmap(bitmaps->constr);
-                show_mouse(bitmaps->constr);
+                if(mouse_b&1&& mouse_x>20){
+
+                    x=mouse_x/40;
+                    y=mouse_y/20;
+                    if(mouse_x<(x+1)*40-20)
+                    {
+                        if(x!=0)x=x*40-20;
+                        if(y!=0)y=y*20-10;
+                    }
+                    else
+                    {
+                        x=x*40;
+                        y=y*20;
+                    }
+                    yc=y/10;
+                    xc=x/40;
+                    if(tabcases[yc][xc].type==0)
+                    {
+                        draw_sprite(page,bitmaps->route,x,y );
+                        tabcases[yc][xc].type=1;
+                        tabcases[yc][xc].x=x;
+                        tabcases[yc][xc].y=y;
+
+                        for(int k=0;k<75;k++){
+                            for(int l=0;l<35;l++){
+                                printf("%d ",tabcases[k][l].type);
+
+                            }printf("\n");
+                            if(k%2==0)printf(" ");
+                        }printf("\n\n");
+                    }
+
+                }
                 if(mouse_b&2){
                     break;
                 }
 
-                blit(page,rect,0,0,0,0,SCREEN_W,SCREEN_H);
+                blit(page,rect,0,0,0,0,SCREEN_W,SCREEN_H);show_mouse(rect);
                 draw_sprite(rect,bitmaps->route,mouse_x-20,mouse_y-20 );
-                show_mouse(rect);
-                blit(rect,screen,0,0,0,0,SCREEN_W,SCREEN_H);
-                Sleep(50);
-             /* if(mouse_b&1){
-                  x=(mouse_x/40)*40;
-                  y=(mouse_x/20)*20;
-                  cases[mouse_y/20][mouse_x/40].x=x;
-                  cases[mouse_y/20][mouse_x/40].y=y;
 
-              }*/
+                blit(rect,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+
             }
 
         }
-        if(getpixel(bitmaps->bufferDeDetection,mouse_x,mouse_y)== makecol(200, 200, 0)&&mouse_b&1){
-
+        if(getpixel(bitmaps->bufferDeDetection,mouse_x,mouse_y)== makecol(200, 200, 0)&&mouse_b&1){//pose le terrain vague
             clear_bitmap(bitmaps->page);
+            rest(100);
+
+            while(true){
+                if(mouse_b&1&& mouse_x>20)
+                {
+
+                    x=mouse_x/40;
+                    y=mouse_y/20;
+                    if(mouse_x<(x+1)*40-20)
+                    {
+                        if(x!=0)x=x*40-20;
+                        if(y!=0)y=y*20-10;
+                    }
+                    else
+                    {
+                        x=x*40;
+                        y=y*20;
+                    }
+                    yc=y/10;
+                    xc=x/40;
+                    if(tabcases[yc][xc].type!=0||tabcases[yc -2][xc +1].type!=0||tabcases[yc -2][xc -1].type!=0||tabcases[yc -2][xc ].type != 0||tabcases[yc-1][xc ].type != 0||tabcases[yc -3][xc ].type != 0||tabcases[yc -4][xc ].type != 0 )continue;
+                    draw_sprite(page,bitmaps->terrain,x-40,y -40   );
+                    if(yc%2==0){
+
+                        tabcases[yc-1][xc -1].type = 2;
+                        tabcases[yc -3][xc -1].type = 2;
+                        tabcases[yc-1][xc -1].id = bitmaps->idsommet;
+                        tabcases[yc -3][xc -1].id = bitmaps->idsommet;
+
+                    }
+                    else{
+
+                        tabcases[yc-1][xc +1].type = 2;
+                        tabcases[yc -3][xc +1].type = 2;
+                        tabcases[yc-1][xc +1].id = bitmaps->idsommet;
+                        tabcases[yc -3][xc +1].id = bitmaps->idsommet;
+
+                    }
+                    tabcases[yc -2][xc +1].type = 2;
+                    tabcases[yc -2][xc -1].type = 2;
+                    tabcases[yc -2][xc ].type = 2;
+                    tabcases[yc-1][xc ].type = 2;
+                    tabcases[yc][xc].x=x;
+                    tabcases[yc][xc].y=y;
+                    tabcases[yc][xc].type = 2;
+                    tabcases[yc -3][xc ].type = 2;
+                    tabcases[yc -4][xc ].type = 2;
+                    tabcases[yc -2][xc +1].id = bitmaps->idsommet;
+                    tabcases[yc -2][xc -1].id = bitmaps->idsommet;
+                    tabcases[yc -2][xc ].id = bitmaps->idsommet;
+                    tabcases[yc-1][xc ].id = bitmaps->idsommet;
+                    tabcases[yc][xc].id = bitmaps->idsommet;
+                    tabcases[yc -3][xc ].id = bitmaps->idsommet;
+                    tabcases[yc -4][xc ].id = bitmaps->idsommet;
+                    printf("on vient de poser le s%d\n",bitmaps->idsommet);
+                    bitmaps->idsommet++;
+                    break;
+                }
+
+                if(mouse_b&2){
+                    break;
+                }
+
+                blit(page,rect,0,0,0,0,SCREEN_W,SCREEN_H);show_mouse(rect);
+                draw_sprite(rect,bitmaps->terrain,mouse_x-63,mouse_y-60 );
+                show_mouse(rect);
+                blit(rect,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+
+                rest(50);
+            }
+            trouver_distance(tabcases,xc,yc,bitmaps);
+            g=lire_graphe();
+
+            printf("\n zefefez  %d",g->pSommet[0]->ClefEnMain->capa);
+        }
+
+        if(getpixel(bitmaps->bufferDeDetection,mouse_x,mouse_y)== makecol(100, 0, 0)&&mouse_b&1){// pose le chateau d'eau
+            clear_bitmap(bitmaps->page);
+            rest(100);
+
+            while(true){
+                if(mouse_b&1&& mouse_x>20)
+                {
+
+
+                    x=mouse_x/40;
+                    y=mouse_y/20;
+                    if(mouse_x<(x+1)*40-20)
+                    {
+                        if(x!=0)x=x*40-20;
+                        if(y!=0)y=y*20-10;
+                    }
+                    else
+                    {
+                        x=x*40;
+                        y=y*20;
+                    }
+                    yc=y/10;
+                    xc=x/40;
+                    if(tabcases[yc -5][xc -3].type !=0||tabcases[yc -2][xc +1].type!=0||tabcases[yc -3][xc -2].type !=0||tabcases[yc -1][xc +1].type!=0||tabcases[yc -3][xc +2].type !=0|| tabcases[yc ][xc ].type != 0||tabcases[yc -2][xc ].type != 0 || tabcases[yc -4][xc ].type != 0|| tabcases[yc -6][xc ].type != 0||tabcases[yc -8][xc -1].type != 0 ||tabcases[yc -2][xc -1].type != 0 || tabcases[yc -2][xc +1].type != 0|| tabcases[yc -4][xc -2].type != 0||tabcases[yc -4][xc -1].type != 0)continue;
+                    draw_sprite(page,bitmaps->chateau,x-100,y -80  );
+                    if(yc%2==0){
+
+
+                        tabcases[yc -5][xc -3].type= 8;
+                        tabcases[yc -3][xc -2].type= 8;
+                        tabcases[yc -1][xc].type= 8;
+                        tabcases[yc -7][xc -2].type= 8;
+                        tabcases[yc -1][xc -1].type= 8;
+
+                        tabcases[yc -5][xc -3].id = bitmaps->idsommet;
+                        tabcases[yc -3][xc -2].id = bitmaps->idsommet;
+                        tabcases[yc -1][xc].id = bitmaps->idsommet;
+                        tabcases[yc -7][xc -2].id = bitmaps->idsommet;
+                        tabcases[yc -1][xc -1].id = bitmaps->idsommet;
+                    }
+                    else{
+
+                        tabcases[yc -1][xc +1].type= 8;
+                        tabcases[yc -3][xc +2].type= 8;
+                        tabcases[yc -5][xc +1].type= 8;
+                        tabcases[yc -7][xc ].type= 8;
+                        tabcases[yc -1][xc].type= 8;
+
+                        tabcases[yc -1][xc +1].id = bitmaps->idsommet;
+                        tabcases[yc -3][xc +2].id = bitmaps->idsommet;
+                        tabcases[yc -5][xc +1].id = bitmaps->idsommet;
+                        tabcases[yc -7][xc ].id = bitmaps->idsommet;
+                        tabcases[yc -1][xc].id = bitmaps->idsommet;
+
+
+                    }
+                    tabcases[yc ][xc ].type= 8;
+                    tabcases[yc -2][xc ].type= 8;
+                    tabcases[yc -4][xc ].type= 8;
+                    tabcases[yc -6][xc ].type= 8;
+                    tabcases[yc -8][xc -1].type= 8;
+                    tabcases[yc -2][xc -1].type= 8;
+                    tabcases[yc -2][xc +1].type= 8;
+                    tabcases[yc -4][xc -2].type= 8;
+                    tabcases[yc -4][xc -1].type= 8;
+                    tabcases[yc -4][xc +1].type= 8;
+                    tabcases[yc -6][xc -2].type= 8;
+                    tabcases[yc -6][xc -1].type= 8;
+                    tabcases[yc -3][xc -1].type= 8;
+                    tabcases[yc -3][xc ].type= 8;
+                    tabcases[yc -3][xc +1].type= 8;
+                    tabcases[yc -5][xc ].type= 8;
+                    tabcases[yc -5][xc -1].type= 8;
+                    tabcases[yc -5][xc -2].type= 8;
+                    tabcases[yc -7][xc -1].type= 8;
+
+                    tabcases[yc ][xc ].id = bitmaps->idsommet;
+                    tabcases[yc -2][xc ].id = bitmaps->idsommet;
+                    tabcases[yc -4][xc ].id = bitmaps->idsommet;
+                    tabcases[yc -6][xc ].id = bitmaps->idsommet;
+                    tabcases[yc -8][xc -1].id = bitmaps->idsommet;
+                    tabcases[yc -2][xc -1].id = bitmaps->idsommet;
+                    tabcases[yc -2][xc +1].id = bitmaps->idsommet;
+                    tabcases[yc -4][xc -2].id = bitmaps->idsommet;
+                    tabcases[yc -4][xc -1].id = bitmaps->idsommet;
+                    tabcases[yc -4][xc +1].id = bitmaps->idsommet;
+                    tabcases[yc -6][xc -2].id = bitmaps->idsommet;
+                    tabcases[yc -6][xc -1].id = bitmaps->idsommet;
+                    tabcases[yc -3][xc -1].id = bitmaps->idsommet;
+                    tabcases[yc -3][xc ].id = bitmaps->idsommet;
+                    tabcases[yc -3][xc +1].id = bitmaps->idsommet;
+                    tabcases[yc -5][xc ].id = bitmaps->idsommet;
+                    tabcases[yc -5][xc -1].id = bitmaps->idsommet;
+                    tabcases[yc -5][xc -2].id = bitmaps->idsommet;
+                    tabcases[yc -7][xc -1].id = bitmaps->idsommet;
+                    printf("on vient de poser le sommet:%d\n",bitmaps->idsommet);
+                    bitmaps->idsommet++;
+                }
+                if(mouse_b&2){
+                    break;
+                }
+
+                blit(page,rect,0,0,0,0,SCREEN_W,SCREEN_H);show_mouse(rect);
+                draw_sprite(rect,bitmaps->chateau,mouse_x-63,mouse_y-60 );
+                show_mouse(rect);
+                blit(rect,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+                rest(50);
+            }
+
 
         }
-        if(getpixel(bitmaps->bufferDeDetection,mouse_x,mouse_y)== makecol(100, 0, 0)&&mouse_b&1){
+        if(getpixel(bitmaps->bufferDeDetection,mouse_x,mouse_y)== makecol(30, 0, 30)&&mouse_b&1){//pose la centrale
 
             clear_bitmap(bitmaps->page);
+            rest(100);
+            while(true){
+                if(mouse_b&1&& mouse_x>20)
+                {
 
-        }
-        if(getpixel(bitmaps->bufferDeDetection,mouse_x,mouse_y)== makecol(30, 0, 30)&&mouse_b&1){
+                    x=mouse_x/40;
+                    y=mouse_y/20;
+                    if(mouse_x<(x+1)*40-20)
+                    {
+                        if(x!=0)x=x*40-20;
+                        if(y!=0)y=y*20-10;
+                    }
+                    else
+                    {
+                        x=x*40;
+                        y=y*20;
+                    }
+                    yc=y/10;
+                    xc=x/40;
+                    if(tabcases[yc -5][xc -3].type !=0||tabcases[yc -2][xc +1].type!=0||tabcases[yc -3][xc -2].type !=0||tabcases[yc -1][xc +1].type!=0||tabcases[yc -3][xc +2].type !=0|| tabcases[yc ][xc ].type != 0||tabcases[yc -2][xc ].type != 0 || tabcases[yc -4][xc ].type != 0|| tabcases[yc -6][xc ].type != 0||tabcases[yc -8][xc -1].type != 0 ||tabcases[yc -2][xc -1].type != 0 || tabcases[yc -2][xc +1].type != 0|| tabcases[yc -4][xc -2].type != 0||tabcases[yc -4][xc -1].type != 0)continue;
+                    draw_sprite(page,bitmaps->centrale,x-100,y -80   );
+                    if(yc%2==0){
 
-            clear_bitmap(bitmaps->page);
+
+                        tabcases[yc -5][xc -3].type =7;
+                        tabcases[yc -3][xc -2].type =7; ;
+                        tabcases[yc -1][xc].type =7;
+                        tabcases[yc -7][xc -2].type =7;
+                        tabcases[yc -1][xc -1].type =7;
+
+                        tabcases[yc -5][xc -3].id = bitmaps->idsommet;
+                        tabcases[yc -3][xc -2].id =bitmaps->idsommet ;
+                        tabcases[yc -1][xc].id = bitmaps->idsommet;
+                        tabcases[yc -7][xc -2].id = bitmaps->idsommet;
+                        tabcases[yc -1][xc -1].id = bitmaps->idsommet;
+                    }
+                    else{
+
+                        tabcases[yc -1][xc +1].type =7;
+                        tabcases[yc -4][xc +2].type =7;
+                        tabcases[yc -5][xc +1].type =7;
+                        tabcases[yc -7][xc ].type =7;
+                        tabcases[yc -1][xc].type =7;
+
+                        tabcases[yc -1][xc +1].id = bitmaps->idsommet;
+                        tabcases[yc -4][xc +2].id = bitmaps->idsommet;
+                        tabcases[yc -5][xc +1].id = bitmaps->idsommet;
+                        tabcases[yc -7][xc ].id = bitmaps->idsommet;
+                        tabcases[yc -1][xc].id = bitmaps->idsommet;
+                    }
+                    tabcases[yc ][xc ].type =7;
+                    tabcases[yc -2][xc ].type =7;
+                    tabcases[yc -4][xc ].type =7;
+                    tabcases[yc -6][xc ].type =7;
+                    tabcases[yc -8][xc -1].type =7;
+                    tabcases[yc -2][xc -1].type =7;
+                    tabcases[yc -2][xc +1].type =7;
+                    tabcases[yc -4][xc -2].type =7;
+                    tabcases[yc -4][xc -1].type =7;
+                    tabcases[yc -4][xc +1].type =7;
+                    tabcases[yc -6][xc -2].type =7;
+                    tabcases[yc -6][xc -1].type =7;
+                    tabcases[yc -3][xc -1].type =7;
+                    tabcases[yc -3][xc ].type =7;
+                    tabcases[yc -3][xc +1].type =7;
+                    tabcases[yc -5][xc ].type =7;
+                    tabcases[yc -5][xc -1].type =7;
+                    tabcases[yc -5][xc -2].type =7;
+                    tabcases[yc -7][xc -1].type =7;
+
+                    tabcases[yc ][xc ].id = bitmaps->idsommet;
+                    tabcases[yc -2][xc ].id = bitmaps->idsommet;
+                    tabcases[yc -4][xc ].id = bitmaps->idsommet;
+                    tabcases[yc -6][xc ].id = bitmaps->idsommet;
+                    tabcases[yc -8][xc -1].id = bitmaps->idsommet;
+                    tabcases[yc -2][xc -1].id = bitmaps->idsommet;
+                    tabcases[yc -2][xc +1].id = bitmaps->idsommet;
+                    tabcases[yc -4][xc -2].id = bitmaps->idsommet;
+                    tabcases[yc -4][xc -1].id = bitmaps->idsommet;
+                    tabcases[yc -4][xc +1].id = bitmaps->idsommet;
+                    tabcases[yc -6][xc -2].id = bitmaps->idsommet;
+                    tabcases[yc -6][xc -1].id = bitmaps->idsommet;
+                    tabcases[yc -3][xc -1].id = bitmaps->idsommet;
+                    tabcases[yc -3][xc ].id = bitmaps->idsommet;
+                    tabcases[yc -3][xc +1].id = bitmaps->idsommet;
+                    tabcases[yc -5][xc ].id = bitmaps->idsommet;
+                    tabcases[yc -5][xc -1].id = bitmaps->idsommet;
+                    tabcases[yc -5][xc -2].id = bitmaps->idsommet;
+                    tabcases[yc -7][xc -1].id = bitmaps->idsommet;
+                    printf("on vient de poser le sommet:%d\n",bitmaps->idsommet);
+                    bitmaps->idsommet++;
+                }
+                if(mouse_b&2){
+                    break;
+                }
+
+                blit(page,rect,0,0,0,0,SCREEN_W,SCREEN_H);show_mouse(rect);
+                draw_sprite(rect,bitmaps->centrale,mouse_x-63,mouse_y-60 );
+                show_mouse(rect);
+                blit(rect,screen,0,0,0,0,SCREEN_W,SCREEN_H);
+                Sleep(50);
+
+            }
 
         }
 
@@ -385,7 +1100,7 @@ void outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page){
 
     if(getpixel(bitmaps->page,256,192)== makecol(200,255,255))blit(bitmaps->page,rect,256, 192, 256, 192,512, 350);
 
-
+return type;
 }
 
 /*

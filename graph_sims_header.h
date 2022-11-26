@@ -9,6 +9,8 @@
 #include <allegro.h>
 #include <stdbool.h>
 typedef struct graph{
+    int idsommet;
+    int taille;
     BITMAP *constr;
     BITMAP *bufferDeDetection;
     BITMAP* page;               //buffer
@@ -16,6 +18,8 @@ typedef struct graph{
     BITMAP* route;
     BITMAP* chateau;
     BITMAP* centrale;
+    BITMAP* chateauD;
+    BITMAP* centraleD;
     BITMAP* terrain;
     BITMAP* pause;
     BITMAP* sauvegarde;
@@ -26,9 +30,11 @@ typedef struct graph{
     BITMAP* croixrouge;
 
 }Bitmaps;
+
 typedef struct cases
 {
-    int type;    //type du sommet(0:vide 1:route 2:habitations 3:clefenmain )
+    int type;    //type du sommet( 0:vide 1:route 2:habitations 3:clefenmain )
+    int id;
     int x;
     int y;
     int passage;
@@ -70,7 +76,7 @@ struct Sommet
 {
     struct Arc* arc;
     int num;     //numero du sommet
-    int type;    //type du sommet(0:ruine 1:terrain vague 2:cabane 3:maison 4:immeuble 5:gratte-ciel 6:centrale 7:chateau d'eau)
+    int type;    //type du sommet(10:ruine 2:terrain vague 3:cabane 4:maison 5:immeuble 6:gratte-ciel 7:centrale 8:chateau d'eau)
     int marque;
     habitation* habitation;
     ClefEnMain* ClefEnMain;
@@ -92,15 +98,15 @@ typedef struct Graphe
 
 
 void initAllegro();
-void MAJ_graph(int ordre);
+/*void MAJ_graph(int ordre);
 void niveaux(BITMAP* niveau0,BITMAP* niveau_1,BITMAP* niveau_2,BITMAP* page);
 void pause(BITMAP* pause, BITMAP* page);
 
 void sauvegarde(BITMAP* sauvegarde, BITMAP* page);
 
 void quitter(BITMAP* quitter, BITMAP* page);
-void outils (Bitmaps* bitmaps,BITMAP* rect,BITMAP* page);
+void outils (Bitmaps* bitmaps,BITMAP* rect,BITMAP* page,cases tabcases[23][35]);
 Bitmaps* initialisation_bitmaps();
 
-
+*/
 #endif // GRAPH_SIMS_HEADER_H_INCLUDED
