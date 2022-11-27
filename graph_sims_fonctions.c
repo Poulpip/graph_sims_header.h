@@ -826,7 +826,7 @@ Graphe* outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][3
         if(getpixel(bitmaps->bufferDeDetection,mouse_x,mouse_y)== makecol(200, 200, 0)&&mouse_b&1){//pose le terrain vague
             clear_bitmap(bitmaps->page);
             rest(100);
-
+                int evit_crash=0;
             while(true){
                 if(mouse_b&1&& mouse_x>20)
                 {
@@ -848,7 +848,7 @@ Graphe* outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][3
 
 
                     if(yc%2==0){
-
+                        if(tabcases[yc+1][xc ].type != 1)continue;
                         tabcases[yc-1][xc -1].type = 2;
                         tabcases[yc -3][xc -1].type = 2;
                         tabcases[yc-1][xc -1].id = bitmaps->idsommet;
@@ -857,6 +857,7 @@ Graphe* outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][3
                     }
                     else{
 
+                        if(tabcases[yc+1][xc +1].type != 1)continue;
                         tabcases[yc-1][xc +1].type = 2;
                         tabcases[yc -3][xc +1].type = 2;
                         tabcases[yc-1][xc +1].id = bitmaps->idsommet;
@@ -886,6 +887,7 @@ Graphe* outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][3
                 }
 
                 if(mouse_b&2){
+                    evit_crash=1;
                     break;
                 }
 
@@ -896,13 +898,17 @@ Graphe* outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][3
 
                 rest(50);
             }
-            trouver_distance(tabcases,xc,yc,bitmaps);
+            if(evit_crash!=1)
+            {
+                trouver_distance(tabcases,xc,yc,bitmaps);
 
-            g=lire_graphe(xc,yc);
+                g=lire_graphe(xc,yc);
 
-            if(getpixel(bitmaps->page,256,192)== makecol(200,255,255))blit(bitmaps->page,rect,256, 192, 256, 192,512, 350);
+                if(getpixel(bitmaps->page,256,192)== makecol(200,255,255))blit(bitmaps->page,rect,256, 192, 256, 192,512, 350);
 
-            return g;
+                return g;
+            }
+
 
         }
 
@@ -1186,8 +1192,8 @@ void alimentation(Graphe* g) {
             while (g->pSommet[i]->ClefEnMain->approvisionnement != g->pSommet[i]->ClefEnMain->capa &&arc < g->pSommet[i]->nbr_arcs)
             {
                 n = arcs[arc][1];// numero du sommet suivant avec l'arc de plus petit poids entre le sommet exploré et du sommet suivant
-               // printf("\nn: %d  i: %d ",n,i );
-                if (g->pSommet[i]->type == 8) // si le sommet en cours d'exploration est un chateau d'eau
+                printf("\nn: %d  i: %d ",n,i );
+                if (g->pSommet[i]->type == 8 &&g->pSommet[n]->habitation->demande_eau!=g->pSommet[n]->habitation->eau) // si le sommet en cours d'exploration est un chateau d'eau
                 {
                     if (g->pSommet[i]->ClefEnMain->capa - g->pSommet[i]->ClefEnMain->approvisionnement > g->pSommet[n]->habitation->demande_eau)// si ce que peut fournir le chateau d'eau a l'habitation qui lui est reliée est suffisante
                     {
@@ -1200,7 +1206,7 @@ void alimentation(Graphe* g) {
                         g->pSommet[i]->ClefEnMain->approvisionnement = g->pSommet[i]->ClefEnMain->capa;// l'approvisionnement est maximal
                     }
                 }
-                else if (g->pSommet[i]->type == 7) //si le sommet est une centrale
+                else if (g->pSommet[i]->type == 7 && g->pSommet[n]->habitation->demande_electricite!=g->pSommet[n]->habitation->electricite) //si le sommet est une centrale
                 {
                    if (g->pSommet[i]->ClefEnMain->capa - g->pSommet[i]->ClefEnMain->approvisionnement >= g->pSommet[n]->habitation->demande_electricite)
                     {
@@ -1210,14 +1216,16 @@ void alimentation(Graphe* g) {
                     }
 
                 }
+
                 arc++;// on incremente la variable pour passer au prochain sommet dont l'arc est de plus petit poids
             }
         }
 
+
     }
     for (int h = 0; h < g->pSommet[g->ordre-1]->nbr_arcs; h++)
         free(arcs[h]);
-    free(arcs);
+    free(arcs);printf("ff");
 }
 /*
 void trouver_distance(cases tabcases[23][35])

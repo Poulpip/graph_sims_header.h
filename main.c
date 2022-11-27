@@ -54,7 +54,7 @@ int main()
             {
 
                 if(g->pSommet[i]->habitation!=NULL && g->pSommet[i]->ClefEnMain==NULL)
-                        textprintf_ex(rect,font,10,10, makecol(0, 0, 255),-1,"\nEAU[%d]= %d  electricite[%d]= %d\n",i,g->pSommet[i]->habitation->eau,i,g->pSommet[i]->habitation->electricite);
+                        textprintf_ex(rect,font,10,10+15*i, makecol(0, 0, 255),-1,"\nEAU[%d]= %d  electricite[%d]= %d\n",i,g->pSommet[i]->habitation->eau,i,g->pSommet[i]->habitation->electricite);
             }
         }
 
