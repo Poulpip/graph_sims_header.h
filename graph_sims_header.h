@@ -78,11 +78,11 @@ struct Sommet
     int num;     //numero du sommet
     int type;    //type du sommet(10:ruine 2:terrain vague 3:cabane 4:maison 5:immeuble 6:gratte-ciel 7:centrale 8:chateau d'eau)
     int marque;
+    int nbr_arcs;
+    int pos[2];
     habitation* habitation;
     ClefEnMain* ClefEnMain;
 };
-
-
 
 /* Alias de pointeur sur un Sommet */
 typedef struct Sommet* pSommet;

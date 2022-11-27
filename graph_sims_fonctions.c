@@ -35,7 +35,7 @@ pSommet* CreerArete(pSommet* sommet,int s1,int s2,int distance)
     else
     {
         pArc temp=sommet[s1]->arc;
-        while( !(temp->arc_suivant==NULL))
+        while( temp->arc_suivant!=NULL)
         {
             temp=temp->arc_suivant;
         }
@@ -60,18 +60,20 @@ pSommet* CreerArete(pSommet* sommet,int s1,int s2,int distance)
 }
 
 
-Graphe* CreerGraphe(int ordre,int *types)// cr�er le graphe
+Graphe* CreerGraphe(int ordre,int *types,int *pos)// cr�er le graphe
 {
     Graphe * Newgraphe=(Graphe*)malloc(sizeof(Graphe));
 
     Newgraphe->pSommet = (pSommet*)malloc(ordre*sizeof(pSommet));
-
 
     for(int i=0; i<ordre; i++)
     {
         Newgraphe->pSommet[i]=(pSommet)malloc(sizeof(struct Sommet));
         Newgraphe->pSommet[i]->num=i;
         Newgraphe->pSommet[i]->arc=NULL;
+        Newgraphe->pSommet[i]->pos[0]=pos[0]*40;
+        Newgraphe->pSommet[i]->pos[1]=pos[1]*20;
+        Newgraphe->pSommet[i]->nbr_arcs=0;
         switch(types[i])
         {
             case 10:
@@ -185,13 +187,14 @@ Graphe* CreerGraphe(int ordre,int *types)// cr�er le graphe
 /* La construction du r�seau peut se faire � partir d'un fichier dont le nom est pass� en param�tre
 Le fichier contient : ordre, taille,orientation (0 ou 1)et liste des arcs */
 
-Graphe * lire_graphe()
+Graphe * lire_graphe(int xc, int yc)
 {
     Graphe* graphe;
     FILE * ifs = fopen("graphe.txt","r");
 
     int taille=0, ordre=0;
     int distance=0;
+    pArc temp;
     if (!ifs)
     {
         printf("Erreur de lecture fichier\n");
@@ -204,6 +207,9 @@ Graphe * lire_graphe()
     int *s1=(int*)malloc(ordre*sizeof(int));
     int *s2=(int*)malloc(ordre*sizeof(int));
     int *p=(int*)malloc(ordre*sizeof(int));
+    int *pos=(int*)malloc(ordre*sizeof(int));
+    pos[0]=xc;
+    pos[1]=yc;
 
     for(int i=0; i<taille; i++)
     {
@@ -211,8 +217,7 @@ Graphe * lire_graphe()
         fscanf(ifs,"%d %d",&types[s1[i]],&types[s2[i]]);
 
     }
-    graphe=CreerGraphe(ordre,types); // cr�er le graphe d'ordre sommets
-
+    graphe=CreerGraphe(ordre,types,pos); // cr�er le graphe d'ordre sommets
 
     graphe->ordre=ordre;
     graphe->taille=taille;
@@ -225,8 +230,28 @@ Graphe * lire_graphe()
 
         graphe->pSommet=CreerArete(graphe->pSommet, s1[i], s2[i],p[i]);
         graphe->pSommet=CreerArete(graphe->pSommet, s2[i], s1[i],p[i]);
+
     }
-    printf("\n ahaha %d",graphe->pSommet[0]->ClefEnMain->capa);
+    //printf("\n ordre : %d  ",graphe->ordre);
+    for(int i=0; i<graphe->ordre; i++)
+    {
+        temp=graphe->pSommet[i]->arc;
+        while(temp!=NULL)
+        {
+            graphe->pSommet[i]->nbr_arcs++;
+            temp=temp->arc_suivant;
+
+        }//printf("nb-arcs[%d]: %d ",i,graphe->pSommet[i]->nbr_arcs);
+
+    }
+
+
+    free(s1);
+    free(s2);
+    free(types);
+    free(p);
+    free(pos);
+
 
     return graphe;
 }
@@ -242,7 +267,7 @@ void MAJ_graph_txt(int S_et_P[5],Bitmaps* bitmaps)
     f=fopen("graphe.txt","r");
     fscanf(f,"%d",&ordre);
     fscanf(f,"%d",&taille);
-    printf("\nordre:%d taille:%d\n",ordre, taille);
+   // printf("\nordre:%d taille:%d\n",ordre, taille);
     if(ordre>0){
         for(int i = 0;i<bitmaps->taille*5 ;i++){
             fscanf(f,"%d",&tmp[i]);
@@ -616,7 +641,7 @@ int trouver_distance(cases tabcases[75][35],int xc,int yc, Bitmaps* bitmaps)
 
         }
 
-    }
+}
 
 
 
@@ -658,18 +683,18 @@ Bitmaps* initialisation_bitmaps(){
     Bitmaps->constr = create_bitmap(40,20);
     clear_bitmap( Bitmaps->constr);
 
-    if (!Bitmaps->pause)
+    /*if (!Bitmaps->pause)
     {
         allegro_message("simscity.bmp non trouve");
         exit(EXIT_FAILURE);
-    }
+    }*/
 
     return Bitmaps;
 }
 void place_bat(Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35],int x ,int y,int xc,int yc)
 {
     clear_bitmap(bitmaps->page);
-    Sleep(50);
+    rest(50);
     while(true){
         if(mouse_b&1&& mouse_x>20){
 
@@ -715,8 +740,8 @@ void place_bat(Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35
 
     }
 }
-int outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35]){
-    int verif_y=0,yc=0,xc=0,type=0,ordre;
+Graphe* outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35],Graphe *G_ancien){
+    int verif_y=0,yc=0,xc=0,type=0,ordre=0;
     Graphe *g;
     draw_sprite(rect,bitmaps->outils,965,0);
     int x,y;
@@ -776,13 +801,13 @@ int outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35]){
                         tabcases[yc][xc].x=x;
                         tabcases[yc][xc].y=y;
 
-                        for(int k=0;k<75;k++){
+                      /*  for(int k=0;k<75;k++){
                             for(int l=0;l<35;l++){
                                 printf("%d ",tabcases[k][l].type);
 
                             }printf("\n");
                             if(k%2==0)printf(" ");
-                        }printf("\n\n");
+                        }printf("\n\n");*/
                     }
 
                 }
@@ -805,7 +830,6 @@ int outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35]){
             while(true){
                 if(mouse_b&1&& mouse_x>20)
                 {
-
                     x=mouse_x/40;
                     y=mouse_y/20;
                     if(mouse_x<(x+1)*40-20)
@@ -821,7 +845,8 @@ int outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35]){
                     yc=y/10;
                     xc=x/40;
                     if(tabcases[yc][xc].type!=0||tabcases[yc -2][xc +1].type!=0||tabcases[yc -2][xc -1].type!=0||tabcases[yc -2][xc ].type != 0||tabcases[yc-1][xc ].type != 0||tabcases[yc -3][xc ].type != 0||tabcases[yc -4][xc ].type != 0 )continue;
-                    draw_sprite(page,bitmaps->terrain,x-40,y -40   );
+
+
                     if(yc%2==0){
 
                         tabcases[yc-1][xc -1].type = 2;
@@ -838,6 +863,7 @@ int outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35]){
                         tabcases[yc -3][xc +1].id = bitmaps->idsommet;
 
                     }
+                    draw_sprite(page,bitmaps->terrain,x-40,y -40   );
                     tabcases[yc -2][xc +1].type = 2;
                     tabcases[yc -2][xc -1].type = 2;
                     tabcases[yc -2][xc ].type = 2;
@@ -871,9 +897,13 @@ int outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35]){
                 rest(50);
             }
             trouver_distance(tabcases,xc,yc,bitmaps);
-            g=lire_graphe();
 
-            printf("\n zefefez  %d",g->pSommet[0]->ClefEnMain->capa);
+            g=lire_graphe(xc,yc);
+
+            if(getpixel(bitmaps->page,256,192)== makecol(200,255,255))blit(bitmaps->page,rect,256, 192, 256, 192,512, 350);
+
+            return g;
+
         }
 
         if(getpixel(bitmaps->bufferDeDetection,mouse_x,mouse_y)== makecol(100, 0, 0)&&mouse_b&1){// pose le chateau d'eau
@@ -883,8 +913,6 @@ int outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35]){
             while(true){
                 if(mouse_b&1&& mouse_x>20)
                 {
-
-
                     x=mouse_x/40;
                     y=mouse_y/20;
                     if(mouse_x<(x+1)*40-20)
@@ -899,10 +927,9 @@ int outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35]){
                     }
                     yc=y/10;
                     xc=x/40;
-                    if(tabcases[yc -5][xc -3].type !=0||tabcases[yc -2][xc +1].type!=0||tabcases[yc -3][xc -2].type !=0||tabcases[yc -1][xc +1].type!=0||tabcases[yc -3][xc +2].type !=0|| tabcases[yc ][xc ].type != 0||tabcases[yc -2][xc ].type != 0 || tabcases[yc -4][xc ].type != 0|| tabcases[yc -6][xc ].type != 0||tabcases[yc -8][xc -1].type != 0 ||tabcases[yc -2][xc -1].type != 0 || tabcases[yc -2][xc +1].type != 0|| tabcases[yc -4][xc -2].type != 0||tabcases[yc -4][xc -1].type != 0)continue;
+                    if(tabcases[yc -5][xc -3].type !=0||tabcases[yc -2][xc +1].type!=0||tabcases[yc -3][xc -2].type !=0||tabcases[yc -1][xc +1].type!=0||tabcases[yc -3][xc +2].type !=0|| tabcases[yc ][xc ].type != 0||tabcases[yc -2][xc ].type != 0 || tabcases[yc -4][xc ].type != 0|| tabcases[yc -6][xc ].type != 0||tabcases[yc -8][xc -1].type != 0 ||tabcases[yc -2][xc -1].type != 0 || tabcases[yc -4][xc -2].type != 0||tabcases[yc -4][xc -1].type != 0)continue;
                     draw_sprite(page,bitmaps->chateau,x-100,y -80  );
                     if(yc%2==0){
-
 
                         tabcases[yc -5][xc -3].type= 8;
                         tabcases[yc -3][xc -2].type= 8;
@@ -1009,13 +1036,13 @@ int outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35]){
                     }
                     yc=y/10;
                     xc=x/40;
-                    if(tabcases[yc -5][xc -3].type !=0||tabcases[yc -2][xc +1].type!=0||tabcases[yc -3][xc -2].type !=0||tabcases[yc -1][xc +1].type!=0||tabcases[yc -3][xc +2].type !=0|| tabcases[yc ][xc ].type != 0||tabcases[yc -2][xc ].type != 0 || tabcases[yc -4][xc ].type != 0|| tabcases[yc -6][xc ].type != 0||tabcases[yc -8][xc -1].type != 0 ||tabcases[yc -2][xc -1].type != 0 || tabcases[yc -2][xc +1].type != 0|| tabcases[yc -4][xc -2].type != 0||tabcases[yc -4][xc -1].type != 0)continue;
+                    if(tabcases[yc -5][xc -3].type !=0||tabcases[yc -2][xc +1].type!=0||tabcases[yc -3][xc -2].type !=0||tabcases[yc -1][xc +1].type!=0||tabcases[yc -3][xc +2].type !=0|| tabcases[yc ][xc ].type != 0||tabcases[yc -2][xc ].type != 0 || tabcases[yc -4][xc ].type != 0|| tabcases[yc -6][xc ].type != 0||tabcases[yc -8][xc -1].type != 0 ||tabcases[yc -2][xc -1].type != 0 || tabcases[yc -4][xc -2].type != 0||tabcases[yc -4][xc -1].type != 0)continue;
                     draw_sprite(page,bitmaps->centrale,x-100,y -80   );
                     if(yc%2==0){
 
 
                         tabcases[yc -5][xc -3].type =7;
-                        tabcases[yc -3][xc -2].type =7; ;
+                        tabcases[yc -3][xc -2].type =7;
                         tabcases[yc -1][xc].type =7;
                         tabcases[yc -7][xc -2].type =7;
                         tabcases[yc -1][xc -1].type =7;
@@ -1090,19 +1117,108 @@ int outils (Bitmaps* bitmaps,BITMAP* rect, BITMAP* page,cases tabcases[23][35]){
                 draw_sprite(rect,bitmaps->centrale,mouse_x-63,mouse_y-60 );
                 show_mouse(rect);
                 blit(rect,screen,0,0,0,0,SCREEN_W,SCREEN_H);
-                Sleep(50);
+                rest(50);
 
             }
 
         }
 
         }
-
     if(getpixel(bitmaps->page,256,192)== makecol(200,255,255))blit(bitmaps->page,rect,256, 192, 256, 192,512, 350);
 
-return type;
-}
+return G_ancien;
 
+}
+void alimentation(Graphe* g) {
+    pArc next = 0;
+    int arc = 0; // variable qui permet de parcourir le tableau arcs
+    int n = 0; //numero du sommet suivant
+    int k=0;
+    int **arcs = (int **) malloc(sizeof(int *) * g->pSommet[0]->nbr_arcs);
+    for (int i = 0; i < g->pSommet[0]->nbr_arcs; i++)
+        arcs[i] = (int*)malloc(sizeof(int) * 2);
+
+    int temp[2] = {0};
+    for (int i = 0; i < g->ordre; i++)
+    {
+        k=0;
+        if (g->pSommet[i]->ClefEnMain != NULL && g->pSommet[i]->nbr_arcs!=0 && g->pSommet[i]->arc!=NULL)
+        {
+            arcs = (int **) realloc(arcs, g->pSommet[i]->nbr_arcs * sizeof(int *));
+            for (int h = 0; h < g->pSommet[i]->nbr_arcs; h++)
+            {
+                arcs[h] = (int *)malloc(sizeof(int) * 2);
+                arcs[h][0] = 0;
+                arcs[h][1] = 0;
+            }
+
+            next = g->pSommet[i]->arc;
+
+            while(next!=NULL )
+            {
+                if(k==g->pSommet[i]->nbr_arcs)
+                    break;
+                arcs[k][0] = next->distance;
+                arcs[k][1] = next->num_voisin;
+                //printf("\n  num voisins while :%d \narcs[%d][1]= %d",next->num_voisin,u,arcs[u][1]);
+                k++;
+                next=next->arc_suivant;
+
+            }printf("\nG ");
+            for (int u = 0; u < g->pSommet[i]->nbr_arcs -1; u++) // TRI PAR SELECTION //http://langage-info.blogspot.com/2014/05/trois-algorithmes-du-tri-en-c.html
+            {
+                for (int m = u + 1; m < g->pSommet[i]->nbr_arcs; m++)
+                {
+                    if (arcs[u][0] > arcs[m][0])// si le poids de du 2eme arc du sommet est inférieur au poids du 1er
+                    {
+                        for (int d = 0; d < 2; d++)// sauvegarde les données de l'arc avec le poids le plus faible
+                            temp[d] = arcs[u][d];
+                        for (int d = 0; d < 2; d++) // remplace la position par le nouveau minimun
+                            arcs[u][d] = arcs[m][d];
+                        for (int d = 0;d < 2; d++)// replace les valeurs sauvegardés a l'ancienne place du nouveau minimun trouvé
+                            arcs[m][d] = temp[d];
+                    }
+                }
+            }
+           // for (int u = 0; u < g->pSommet[i]->nbr_arcs; u++)
+               // printf("\n eheo arcs[%d][1]= %d",u,arcs[u][1]);
+
+            while (g->pSommet[i]->ClefEnMain->approvisionnement != g->pSommet[i]->ClefEnMain->capa &&arc < g->pSommet[i]->nbr_arcs)
+            {
+                n = arcs[arc][1];// numero du sommet suivant avec l'arc de plus petit poids entre le sommet exploré et du sommet suivant
+               // printf("\nn: %d  i: %d ",n,i );
+                if (g->pSommet[i]->type == 8) // si le sommet en cours d'exploration est un chateau d'eau
+                {
+                    if (g->pSommet[i]->ClefEnMain->capa - g->pSommet[i]->ClefEnMain->approvisionnement > g->pSommet[n]->habitation->demande_eau)// si ce que peut fournir le chateau d'eau a l'habitation qui lui est reliée est suffisante
+                    {
+                        g->pSommet[i]->ClefEnMain->approvisionnement += g->pSommet[n]->habitation->demande_eau; //on met a jour l'approvisionnement que fournit le chateau d'eau aux habitations
+                        g->pSommet[n]->habitation->eau = g->pSommet[n]->habitation->demande_eau;// on remplit les besoins de l'habitation
+                    }
+                    else
+                    {
+                        g->pSommet[n]->habitation->eau = g->pSommet[i]->ClefEnMain->capa - g->pSommet[i]->ClefEnMain->approvisionnement; //on donne ce qui reste ds le chateau d'eau a l'habitation
+                        g->pSommet[i]->ClefEnMain->approvisionnement = g->pSommet[i]->ClefEnMain->capa;// l'approvisionnement est maximal
+                    }
+                }
+                else if (g->pSommet[i]->type == 7) //si le sommet est une centrale
+                {
+                   if (g->pSommet[i]->ClefEnMain->capa - g->pSommet[i]->ClefEnMain->approvisionnement >= g->pSommet[n]->habitation->demande_electricite)
+                    {
+                        g->pSommet[i]->ClefEnMain->approvisionnement += g->pSommet[n]->habitation->demande_electricite; // comme pr le chateau d'eau
+                        g->pSommet[n]->habitation->electricite = g->pSommet[n]->habitation->demande_electricite;
+                        //si l'approvisionnement n'est pas suffisant pour remplir les besoins de l'habitation on ne donne rien
+                    }
+
+                }
+                arc++;// on incremente la variable pour passer au prochain sommet dont l'arc est de plus petit poids
+            }
+        }
+
+    }
+    for (int h = 0; h < g->pSommet[g->ordre-1]->nbr_arcs; h++)
+        free(arcs[h]);
+    free(arcs);
+}
 /*
 void trouver_distance(cases tabcases[23][35])
 {

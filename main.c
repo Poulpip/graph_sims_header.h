@@ -12,7 +12,7 @@ int main()
     BITMAP *map;
     map=load_bitmap("menu/map.bmp",NULL);
     cases tabcases[75][35];
-
+    Graphe * g;
     Bitmaps *bitmaps=initialisation_bitmaps();
     bitmaps->idsommet = 0;
     bitmaps->taille = 0;
@@ -31,9 +31,6 @@ int main()
     }
 
 
-    BITMAP* route;
-    route= load_bitmap("routelosange.bmp",NULL);
-
     draw_sprite(page,map,0,70);
     for(int i=0;i<64;i++)
     {
@@ -47,13 +44,28 @@ int main()
         clear_bitmap(rect);
         blit(page,rect,0,0,0,0,SCREEN_W,SCREEN_H);
 
-        outils(bitmaps,rect,page,tabcases);
+        g=outils(bitmaps,rect,page,tabcases,g);
+
+        if (g->ordre>0)
+        {
+            alimentation(g);
+
+            for(int i=0; i<g->ordre ; i++)
+            {
+
+                if(g->pSommet[i]->habitation!=NULL && g->pSommet[i]->ClefEnMain==NULL)
+                        textprintf_ex(rect,font,10,10, makecol(0, 0, 255),-1,"\nEAU[%d]= %d  electricite[%d]= %d\n",i,g->pSommet[i]->habitation->eau,i,g->pSommet[i]->habitation->electricite);
+            }
+        }
+
+
 
         pause(bitmaps->pause,page);
         sauvegarde(bitmaps->sauvegarde,page);
         quitter(bitmaps->quitter,page);
         niveaux(bitmaps->niveau0,bitmaps->niveau_1,bitmaps->niveau_2,page);
-       // if(mouse_b&1)MAJ_graph(ordre);
+
+
         show_mouse(rect);
         blit(rect,screen,0,0,0,0,SCREEN_W,SCREEN_H);
 
